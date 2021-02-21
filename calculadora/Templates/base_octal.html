@@ -1,0 +1,23 @@
+{% extends "base_diez.html" %}
+{% block titulo %}
+<title> Calculadora Octar </title>
+{% endblock %}
+{% block cuerpo %}
+<h3>CALCULADORA OCTAR</h3>
+
+    <form action="/resultado_octa_dec/" method="POST">
+        {% csrf_token %}
+        <p>digite el numero en base octal:</p>
+        <input type="text" name="octal" required >
+        <br>
+        <br>
+        <input type="submit" value="Calcular">
+        <input type="reset">
+    </form>
+
+    <br>
+
+    <a href="{% url 'decimal'%}"><button>Calculadora Decimal</button></a>
+    <a href="{% url 'binaria'%}"><button>Calculadora Binaria</button></a>
+    <a href="{% url 'hexa_dec'%}"><button>Calculadora Hexadecimal</button></a>
+{% endblock %}
