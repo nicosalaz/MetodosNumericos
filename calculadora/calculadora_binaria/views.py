@@ -93,16 +93,27 @@ def resultado_hexa_dec(request):
 def resultado_octa_dec(request):
     numero = request.POST['octal']
     aux =[]
-    octal = 0
-    for x in numero:
-        aux.append(x)
-    aux.reverse()
-    for y in range(len(aux)):
-        octal+=(8**y)*int(aux[y])
-    hexa = hallar_hexadecimal(octal)
-    binario = hallar_binario(octal)
-    return render(request,'resultado_octal_dec.html',{'numero':numero,'octal':octal,
-                                                      'hexadecimal':hexa,'binario':binario})
+    decimal = 0
+    hexa = 0
+    binario = 0
+    if '.' in numero:
+        e, f = numero.split(sep='.', maxsplit=2)
+        decimal = hallar_decimal_flotante(e,f,8)
+        parte_decimal, parte_entero = math.modf(decimal)
+        binario = str(hallar_binario(parte_entero)) + '.' + str(hallar_binario_flotante(parte_decimal))
+        hexa = str(hallar_hexadecimal(parte_entero)) + '.' + str(hallar_hexa_octa_flotante(parte_decimal, 16))
+        return render(request, 'resultado_octal_dec.html', {'numero': numero, 'octal': decimal,
+                                                            'hexadecimal': hexa, 'binario': binario})
+    else:
+        for x in numero:
+            aux.append(x)
+        aux.reverse()
+        for y in range(len(aux)):
+            decimal+=(8**y)*int(aux[y])
+        hexa = hallar_hexadecimal(decimal)
+        binario = hallar_binario(decimal)
+        return render(request,'resultado_octal_dec.html',{'numero':numero,'octal':decimal,
+                                                          'hexadecimal':hexa,'binario':binario})
 
 def hallar_decimal(numero):
     entero = {}
@@ -242,6 +253,19 @@ def hallar_decimal_flotante(entero,flotante,base):
         aux = hallar_hexa_dec(arreglo)
         for b in range(len(aux)):
             result_flotante +=int(aux[b])*(16**contador)
+            contador -=1
+        result_entero += result_flotante
+    elif base == 8:
+        for x in entero:
+            arreglo.append(x)
+        arreglo.reverse()
+        for y in range(len(arreglo)):
+            result_entero +=int(arreglo[y])*(8**int(y))
+        arreglo.clear()
+        for a in flotante:
+            arreglo.append(a)
+        for b in range(len(arreglo)):
+            result_flotante +=int(arreglo[b])*(8**contador)
             contador -=1
         result_entero += result_flotante
 
