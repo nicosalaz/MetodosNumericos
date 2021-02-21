@@ -44,16 +44,21 @@ def resultado_decimal(request):
 
 def resultado_binario(request):
     binario = request.POST['binario']
-    parte_decimal, parte_entero = math.modf(binario)
+    parte_decimal, parte_entero = 0,0
     decimal = 0
     octal = 0
     hexa = 0
 
     if '.' in binario:
-        decimal = str(hallar_binario(parte_entero)+'.'+str(hallar_decimal_flotante(parte_decimal)))
+        e, f = binario.split(sep='.', maxsplit=2)
+        decimal = hallar_decimal_flotante(e,f,2)
+        parte_decimal, parte_entero = math.modf(decimal)
+        hexa = str(hallar_hexadecimal(parte_entero)) + '.' + str(hallar_hexa_octa_flotante(parte_decimal, 16))
+        octal = str(hallar_octal(parte_entero)) + '.' + str(hallar_hexa_octa_flotante(parte_decimal, 8))
         return render(request, 'resultado_binario.html', {'binario': binario, 'decimal': decimal,
                                                           'hexadecimal': hexa, 'octal': octal})
     else:
+
         decimal = hallar_decimal(binario)
         octal = hallar_octal(decimal)
         hexa = hallar_hexadecimal(decimal)
@@ -64,15 +69,26 @@ def resultado_hexa_dec(request):
     numero = request.POST['hexa']
     aux = []
     decimal = 0
-    for x in numero:
-        aux.append(x)
-    hexa = hallar_hexa_dec(aux)
-    for h in range(0,len(hexa)):
-        decimal += (16**h)*int(hexa[h])
-    octal = hallar_octal(decimal)
-    binario = hallar_binario(decimal)
-    return render(request,'resultado_hexa_dec.html',{'numero':numero,'decimal':decimal,
-                                                     'binario':binario,'octal':octal})
+    octal = 0
+    binario = 0
+    if '.' in numero:
+        e, f = numero.split(sep='.', maxsplit=2)
+        decimal = hallar_decimal_flotante(e,f,16)
+        parte_decimal, parte_entero = math.modf(decimal)
+        binario = str(hallar_binario(parte_entero)) + '.' + str(hallar_binario_flotante(parte_decimal))
+        octal = str(hallar_octal(parte_entero)) + '.' + str(hallar_hexa_octa_flotante(parte_decimal, 8))
+        return render(request, 'resultado_hexa_dec.html', {'numero': numero, 'decimal': decimal,
+                                                           'binario': binario, 'octal': octal})
+    else:
+        for x in numero:
+            aux.append(x)
+        hexa = hallar_hexa_dec(aux)
+        for h in range(0,len(hexa)):
+            decimal += (16**h)*int(hexa[h])
+        octal = hallar_octal(decimal)
+        binario = hallar_binario(decimal)
+        return render(request,'resultado_hexa_dec.html',{'numero':numero,'decimal':decimal,
+                                                         'binario':binario,'octal':octal})
 
 def resultado_octa_dec(request):
     numero = request.POST['octal']
@@ -192,7 +208,41 @@ def hallar_hexa_octa_flotante(numero,base):
 
     return flt
 
-def hallar_decimal_flotante(numero):
-    print(int(numero))
+def hallar_decimal_flotante(entero,flotante,base):
+    contador = -1
+    result_entero = 0
+    result_flotante = 0
+    arreglo = []
+    aux = []
+    if base == 2:
+        for x in entero:
+            arreglo.append(x)
+        arreglo.reverse()
+        for y in range(len(arreglo)):
+            result_entero +=int(arreglo[y])*(2**int(y))
+        arreglo.clear()
+        for a in flotante:
+            arreglo.append(a)
+        for b in range(len(arreglo)):
+            result_flotante +=int(arreglo[b])*(2**contador)
+            contador -=1
+        result_entero += result_flotante
+    elif base == 16:
+        for x in entero:
+            arreglo.append(x)
+        arreglo.reverse()
+        aux = hallar_hexa_dec(arreglo)
+        aux.reverse()
+        for y in range(len(aux)):
+            result_entero += int(aux[y]) * (16 ** int(y))
+        arreglo.clear()
+        aux.clear()
+        for a in flotante:
+            arreglo.append(a)
+        aux = hallar_hexa_dec(arreglo)
+        for b in range(len(aux)):
+            result_flotante +=int(aux[b])*(16**contador)
+            contador -=1
+        result_entero += result_flotante
 
-    return 0
+    return result_entero
