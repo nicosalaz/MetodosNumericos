@@ -3,22 +3,24 @@
 <title> Calculadora Binaria </title>
 {% endblock %}
 {% block cuerpo %}
-<h3>CALCULADORA BINARIA</h3>
 
+    <div class="contenedor">
+        <h3 class="titulo_calculadoras">Calculadora Binaria</h3>
     <form action="/resultado_binario/" method="POST">
         {% csrf_token %}
-        <p>digite el numero en base binaria:</p>
+        <p>Digite el numero en base binaria:</p>
         <input type="text" name="binario" required>
         <br>
         <br>
-        <input type="submit" value="Calcular">
-        <input type="reset">
+        <input class="btn" type="submit" value="Calcular">
+        <input class="btn" type="reset">
     </form>
-
     <br>
 
-    <a href="{% url 'decimal'%}"><button>Calculadora Decimal</button></a>
-    <a href="{% url 'hexa_dec'%}"><button>Calculadora Hexadecimal</button></a>
-    <a href="{% url 'octal_dec'%}"><button>Calculadora Hexadecimal</button></a>
+    <a class="btn" href="{% url 'decimal'%}">Calculadora Decimal</a>
+    <a class="btn" href="{% url 'hexa_dec'%}">Calculadora Hexadecimal</a>
+    <a class="btn" href="{% url 'octal_dec'%}">Calculadora Hexadecimal</a>
+    </div>
+
 {% endblock %}
 

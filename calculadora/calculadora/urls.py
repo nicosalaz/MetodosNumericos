@@ -19,6 +19,7 @@ from calculadora_binaria.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', mostrar_index,name='index'),
     path('mostrar_calculadora_decimal/', mostrar_calculadora_decimal,name='decimal'),
     path('resultado_decimal/', resultado_decimal),
     path('mostrar_calculadora_binaria/', mostrar_calculadora_binaria,name='binaria'),
@@ -27,5 +28,14 @@ urlpatterns = [
     path('resultado_hexa_dec/', resultado_hexa_dec),
     path('mostrar_calculadora_octal',mostrar_calculadora_octal, name='octal_dec'),
     path('resultado_octa_dec/',resultado_octa_dec),
-
+    path('decimal_binario32/',decimal_binario32, name = 'decimal_32'),
+    path('binario_decimal32/',binario_decimal32, name = 'binario_32'),
+    path('decimal_binario64/',decimal_binario64, name = 'decimal_64'),
+    path('binario_decimal64/',binario_decimal64, name = 'binario_64'),
+    path('decimalBinario32/',decimalBinario32),
+    path('binarioDecimal32/',binarioDecimal32),
+    path('decimalBinario64/',decimalBinario64),
+    path('binarioDecimal64/',binarioDecimal64),
 ]
+
+

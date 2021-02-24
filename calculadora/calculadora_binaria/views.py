@@ -3,6 +3,8 @@ from django.http import HttpResponse
 from django.template import loader
 from django.shortcuts import render
 import math
+import struct
+
 
 
 def mostrar_calculadora_decimal(request):
@@ -17,7 +19,11 @@ def mostrar_calculadora_hexadecimal(request):
 def mostrar_calculadora_octal(request):
     return render(request, 'base_octal.html')
 
+def mostrar_index(request):
+    return render(request, 'index.html')
 
+
+######################### BASE 2,8,10,16 #########################
 def resultado_decimal(request):
 
     numero = float(request.POST['numero'])
@@ -270,3 +276,45 @@ def hallar_decimal_flotante(entero,flotante,base):
         result_entero += result_flotante
 
     return result_entero
+
+########################### ESTANDAR IEEE 754 PARA 32 Y 64 ###########################
+
+def decimal_binario32(request):
+    return render(request, 'decimal_binario32.html')
+
+def binario_decimal32(request):
+    return render(request, 'binario_decimal32.html')
+
+def decimal_binario64(request):
+    return render(request, 'decimal_binario64.html')
+
+def binario_decimal64(request):
+    return render(request, 'binario_decimal64.html')
+
+def float_to_bin32(num):
+    bits, = struct.unpack('!I', struct.pack('!f', num))
+    return "{:032b}".format(bits)
+
+def float_to_bin64(num):
+    bits, = struct.unpack('!I', struct.pack('!f', num))
+    return "{:064b}".format(bits)
+
+def bin_to_float(binary):
+    return struct.unpack('!f',struct.pack('!I', int(binary, 2)))[0]
+
+
+def decimalBinario32(request):
+    numero = float_to_bin32(float(request.POST["numero"]))
+    return render(request,'resultado_decimal32.html',{'numero':numero})
+
+def binarioDecimal32(request):
+    numero = bin_to_float(request.POST["numero"])
+    return render(request,'resultado_binario32.html',{'numero':numero})
+
+def decimalBinario64(request):
+    numero = float_to_bin64(float(request.POST["numero"]))
+    return render(request, 'resultado_binario32.html',{'numero':numero})
+
+def binarioDecimal64(request):
+    numero = bin_to_float(request.POST["numero"])
+    return render(request, 'resultado_binario64.html', {'numero':numero})

@@ -1,29 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    {% block titulo %}
-    <title>Caculadora Decimal</title>
+{% extends "index.html" %}
+ {% block titulo %}
+    <title >Caculadora Decimal</title>
     {% endblock  %}
-</head>
-<body>
-    {% block cuerpo %}
-    <h3>CALCULADORA DECIMAL</h3>
 
+    {% block cuerpo %}
+
+    <div class="contenedor">
+        <div class="contenedor-calculadora">
+        <h3 class="titulo_calculadoras">Calculadora Decimal</h3>
     <form action="/resultado_decimal/" method="POST">
         {% csrf_token %}
-        <p>digite su numero:</p>
+        <p>Digite su numero:</p>
         <input type="text" name="numero"required>
         <br>
         <br>
-        <input type="submit" value="Calcular">
-        <input type="reset">
+        <input class="btn" type="submit" value="Calcular">
+        <input class="btn" type="reset">
     </form>
+        </div>
     <br>
-    <a href="{% url 'binaria'%}"><button>Calculadora Binaria</button></a>
-    <a href="{% url 'hexa_dec'%}"><button>Calculadora Hexadecimal</button></a>
-    <a href="{% url 'octal_dec'%}"><button>Calculadora Octal</button></a>
+  
+    <a class= "btn "  href="{% url 'binaria'%}"> Calculadora Binaria</a>
+    <a class= "btn " href="{% url 'hexa_dec'%}"> Calculadora Hexadecimal</a>
+    <a  class= "btn " href="{% url 'octal_dec'%}"> Calculadora Octal</a>
+    </div>
     {% endblock %}
 
-</body>
-</html>

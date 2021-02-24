@@ -3,21 +3,23 @@
 <title> Calculadora Hexadecimal </title>
 {% endblock %}
 {% block cuerpo %}
-<h3>CALCULADORA HEXADECIMAL</h3>
 
+    <div class="contenedor">
+        <h3 class="titulo_calculadoras">Calculadora Hexadecimal</h3>
     <form action="/resultado_hexa_dec/" method="POST">
         {% csrf_token %}
-        <p>digite el numero en base hexadecimal:</p>
+        <p>Digite el numero en base hexadecimal:</p>
         <input type="text" name="hexa" required>
         <br>
         <br>
-        <input type="submit" value="Calcular">
-        <input type="reset">
+        <input class="btn" type="submit" value="Calcular">
+        <input class="btn" type="reset">
     </form>
-
     <br>
 
-    <a href="{% url 'decimal'%}"><button>Calculadora Decimal</button></a>
-    <a href="{% url 'binaria'%}"><button>Calculadora Binaria</button></a>
-    <a href="{% url 'octal_dec'%}"><button>Calculadora Octal</button></a>
+    <a class="btn" href="{% url 'decimal'%}">Calculadora Decimal</a>
+    <a class="btn" href="{% url 'binaria'%}">Calculadora Binaria</a>
+    <a class="btn" href="{% url 'octal_dec'%}">Calculadora Octal</a>
+    </div>
+
 {% endblock %}
