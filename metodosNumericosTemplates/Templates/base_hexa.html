@@ -1,0 +1,25 @@
+{% extends "base_diez.html" %}
+{% block titulo %}
+<title> Calculadora Hexadecimal </title>
+{% endblock %}
+{% block cuerpo %}
+
+    <div class="contenedor">
+        <h3 class="titulo_calculadoras">Calculadora Hexadecimal</h3>
+    <form action="/resultado_hexa_dec/" method="POST">
+        {% csrf_token %}
+        <p>Digite el numero en base hexadecimal:</p>
+        <input type="text" name="hexa" required>
+        <br>
+        <br>
+        <input class="btn" type="submit" value="Calcular">
+        <input class="btn" type="reset">
+    </form>
+    <br>
+
+    <a class="btn" href="{% url 'decimal'%}">Calculadora Decimal</a>
+    <a class="btn" href="{% url 'binaria'%}">Calculadora Binaria</a>
+    <a class="btn" href="{% url 'octal_dec'%}">Calculadora Octal</a>
+    </div>
+
+{% endblock %}
