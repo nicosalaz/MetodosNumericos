@@ -37,7 +37,6 @@ urlpatterns = [
     path('binario_decimal64/',binario_decimal64, name = 'binario_64'),
     path('decimalBinario32/',decimalBinario32),
     path('binarioDecimal32/',binarioDecimal32),
-    path('decimalBinario64/',decimalBinario64),
     path('binarioDecimal64/',binarioDecimal64),
     # Ecuaciones no lineales
     path('form_biseccion/', mostar_form_biseccion,name='biseccion'),

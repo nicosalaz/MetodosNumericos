@@ -304,8 +304,9 @@ def bin_to_float(binary):
 
 
 def decimalBinario32(request):
-    numero = float_to_bin32(float(request.POST["numero"]))
-    return render(request,'IEEE_754/resultado_decimal32.html',{'numero':numero})
+    bin32 = float_to_bin32(float(request.POST["numero"]))
+    bin64 = floatToBinary64(float(request.POST["numero"]))
+    return render(request,'IEEE_754/resultado_decimal32.html',{'binario32':bin32,'binario64':bin64})
 
 def binarioDecimal32(request):
     signo = request.POST["signo"]
@@ -323,9 +324,9 @@ def floatToBinary64(value):
 def bin_to_float64(binary):
     return struct.unpack('d',struct.pack('Q', int(binary, 2)))[0]
 
-def decimalBinario64(request):
-    numero = floatToBinary64(float(request.POST["numero"]))
-    return render(request, 'IEEE_754/resultado_binario32.html',{'numero':numero})
+# def decimalBinario64(request):
+#     numero = floatToBinary64(float(request.POST["numero"]))
+#     return render(request, 'IEEE_754/resultado_binario32.html',{'numero':numero})
 
 def binarioDecimal64(request):
     signo = request.POST["signo"]
