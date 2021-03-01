@@ -16,9 +16,11 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from calculadora_binaria.views import *
+from ecuaciones_no_lineales.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #base 2,8,10,16
     path('', mostrar_index,name='index'),
     path('mostrar_calculadora_decimal/', mostrar_calculadora_decimal,name='decimal'),
     path('resultado_decimal/', resultado_decimal),
@@ -28,6 +30,7 @@ urlpatterns = [
     path('resultado_hexa_dec/', resultado_hexa_dec),
     path('mostrar_calculadora_octal',mostrar_calculadora_octal, name='octal_dec'),
     path('resultado_octa_dec/',resultado_octa_dec),
+    #estandar IEEE 754 32-64 bits
     path('decimal_binario32/',decimal_binario32, name = 'decimal_32'),
     path('binario_decimal32/',binario_decimal32, name = 'binario_32'),
     path('decimal_binario64/',decimal_binario64, name = 'decimal_64'),
@@ -36,6 +39,8 @@ urlpatterns = [
     path('binarioDecimal32/',binarioDecimal32),
     path('decimalBinario64/',decimalBinario64),
     path('binarioDecimal64/',binarioDecimal64),
+    # Ecuaciones no lineales
+    path('form_biseccion/', mostar_form_biseccion,name='biseccion'),
 ]
 
 

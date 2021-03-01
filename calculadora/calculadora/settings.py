@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'calculadora_binaria',
+    'ecuaciones_no_lineales',
 ]
 
 MIDDLEWARE = [

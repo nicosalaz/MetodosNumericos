@@ -8,16 +8,16 @@ import struct
 
 
 def mostrar_calculadora_decimal(request):
-    return render(request,'base_diez.html')
+    return render(request,'Base_10/base_diez.html')
 
 def mostrar_calculadora_binaria(request):
-    return render(request,'base_binaria.html')
+    return render(request,'Base_10/base_binaria.html')
 
 def mostrar_calculadora_hexadecimal(request):
-    return render(request, 'base_hexa.html')
+    return render(request, 'Base_10/base_hexa.html')
 
 def mostrar_calculadora_octal(request):
-    return render(request, 'base_octal.html')
+    return render(request, 'Base_10/base_octal.html')
 
 def mostrar_index(request):
     return render(request, 'index.html')
@@ -38,14 +38,14 @@ def resultado_decimal(request):
         binario = float(hallar_binario(numero))
         octal = hallar_octal(numero)
         hexa = hallar_hexadecimal(numero)
-        return render(request, 'resultado_decimal.html', {'numero': numero, 'binario': binario,
+        return render(request, 'Base_10/resultado_decimal.html', {'numero': numero, 'binario': binario,
                                                           'hexadecimal': hexa, 'octal': octal})
     else:
         binario = str(hallar_binario(parte_entero)) + '.' + str(hallar_binario_flotante(parte_decimal))
         hexa = str(hallar_hexadecimal(parte_entero))+'.'+str(hallar_hexa_octa_flotante(parte_decimal,16))
         octal = str(hallar_octal(parte_entero))+'.'+str(hallar_hexa_octa_flotante(parte_decimal,8))
 
-        return render(request, 'resultado_decimal.html', {'numero': numero, 'binario': binario,
+        return render(request, 'Base_10/resultado_decimal.html', {'numero': numero, 'binario': binario,
                                                           'hexadecimal': hexa, 'octal': octal})
 
 def resultado_binario(request):
@@ -61,14 +61,14 @@ def resultado_binario(request):
         parte_decimal, parte_entero = math.modf(decimal)
         hexa = str(hallar_hexadecimal(parte_entero)) + '.' + str(hallar_hexa_octa_flotante(parte_decimal, 16))
         octal = str(hallar_octal(parte_entero)) + '.' + str(hallar_hexa_octa_flotante(parte_decimal, 8))
-        return render(request, 'resultado_binario.html', {'binario': binario, 'decimal': decimal,
+        return render(request, 'Base_10/resultado_binario.html', {'binario': binario, 'decimal': decimal,
                                                           'hexadecimal': hexa, 'octal': octal})
     else:
 
         decimal = hallar_decimal(binario)
         octal = hallar_octal(decimal)
         hexa = hallar_hexadecimal(decimal)
-        return render(request, 'resultado_binario.html', {'binario': binario, 'decimal': decimal,
+        return render(request, 'Base_10/resultado_binario.html', {'binario': binario, 'decimal': decimal,
                                                           'hexadecimal': hexa, 'octal': octal})
 
 def resultado_hexa_dec(request):
@@ -83,7 +83,7 @@ def resultado_hexa_dec(request):
         parte_decimal, parte_entero = math.modf(decimal)
         binario = str(hallar_binario(parte_entero)) + '.' + str(hallar_binario_flotante(parte_decimal))
         octal = str(hallar_octal(parte_entero)) + '.' + str(hallar_hexa_octa_flotante(parte_decimal, 8))
-        return render(request, 'resultado_hexa_dec.html', {'numero': numero, 'decimal': decimal,
+        return render(request, 'Base_10/resultado_hexa_dec.html', {'numero': numero, 'decimal': decimal,
                                                            'binario': binario, 'octal': octal})
     else:
         for x in numero:
@@ -93,7 +93,7 @@ def resultado_hexa_dec(request):
             decimal += (16**h)*int(hexa[h])
         octal = hallar_octal(decimal)
         binario = hallar_binario(decimal)
-        return render(request,'resultado_hexa_dec.html',{'numero':numero,'decimal':decimal,
+        return render(request,'Base_10/resultado_hexa_dec.html',{'numero':numero,'decimal':decimal,
                                                          'binario':binario,'octal':octal})
 
 def resultado_octa_dec(request):
@@ -108,7 +108,7 @@ def resultado_octa_dec(request):
         parte_decimal, parte_entero = math.modf(decimal)
         binario = str(hallar_binario(parte_entero)) + '.' + str(hallar_binario_flotante(parte_decimal))
         hexa = str(hallar_hexadecimal(parte_entero)) + '.' + str(hallar_hexa_octa_flotante(parte_decimal, 16))
-        return render(request, 'resultado_octal_dec.html', {'numero': numero, 'octal': decimal,
+        return render(request, 'Base_10/resultado_octal_dec.html', {'numero': numero, 'octal': decimal,
                                                             'hexadecimal': hexa, 'binario': binario})
     else:
         for x in numero:
@@ -118,7 +118,7 @@ def resultado_octa_dec(request):
             decimal+=(8**y)*int(aux[y])
         hexa = hallar_hexadecimal(decimal)
         binario = hallar_binario(decimal)
-        return render(request,'resultado_octal_dec.html',{'numero':numero,'octal':decimal,
+        return render(request,'Base_10/resultado_octal_dec.html',{'numero':numero,'octal':decimal,
                                                           'hexadecimal':hexa,'binario':binario})
 
 def hallar_decimal(numero):
@@ -280,24 +280,24 @@ def hallar_decimal_flotante(entero,flotante,base):
 ########################### ESTANDAR IEEE 754 PARA 32 Y 64 ###########################
 
 def decimal_binario32(request):
-    return render(request, 'decimal_binario32.html')
+    return render(request, 'IEEE_754/decimal_binario32.html')
 
 def binario_decimal32(request):
-    return render(request, 'binario_decimal32.html')
+    return render(request, 'IEEE_754/binario_decimal32.html')
 
 def decimal_binario64(request):
-    return render(request, 'decimal_binario64.html')
+    return render(request, 'IEEE_754/decimal_binario64.html')
 
 def binario_decimal64(request):
-    return render(request, 'binario_decimal64.html')
+    return render(request, 'IEEE_754/binario_decimal64.html')
 
 def float_to_bin32(num):
     bits, = struct.unpack('!I', struct.pack('!f', num))
     return "{:032b}".format(bits)
 
-def float_to_bin64(num):
-    bits, = struct.unpack('!I', struct.pack('!f', num))
-    return "{:064b}".format(bits)
+# def float_to_bin64(num):
+#     bits, = struct.unpack('!I', struct.pack('!f', num))
+#     return "{:064b}".format(bits)
 
 def bin_to_float(binary):
     return struct.unpack('!f',struct.pack('!I', int(binary, 2)))[0]
@@ -305,16 +305,53 @@ def bin_to_float(binary):
 
 def decimalBinario32(request):
     numero = float_to_bin32(float(request.POST["numero"]))
-    return render(request,'resultado_decimal32.html',{'numero':numero})
+    return render(request,'IEEE_754/resultado_decimal32.html',{'numero':numero})
 
 def binarioDecimal32(request):
-    numero = bin_to_float(request.POST["numero"])
-    return render(request,'resultado_binario32.html',{'numero':numero})
+    signo = request.POST["signo"]
+    exponente = request.POST["exponente"]
+    mantissa = request.POST["mantissa"]
+    binario = numero_to_str(signo, exponente, mantissa, 32)
+    print(binario)
+    numero = bin_to_float(binario)
+    return render(request,'IEEE_754/resultado_binario32.html',{'numero':numero})
+
+def floatToBinary64(value):
+    val = struct.unpack('Q', struct.pack('d', value))[0]
+    return "{:064b}".format(val)
+
+def bin_to_float64(binary):
+    return struct.unpack('d',struct.pack('Q', int(binary, 2)))[0]
 
 def decimalBinario64(request):
-    numero = float_to_bin64(float(request.POST["numero"]))
-    return render(request, 'resultado_binario32.html',{'numero':numero})
+    numero = floatToBinary64(float(request.POST["numero"]))
+    return render(request, 'IEEE_754/resultado_binario32.html',{'numero':numero})
 
 def binarioDecimal64(request):
-    numero = bin_to_float(request.POST["numero"])
-    return render(request, 'resultado_binario64.html', {'numero':numero})
+    signo = request.POST["signo"]
+    exponente = request.POST["exponente"]
+    mantissa = request.POST["mantissa"]
+    binario = numero_to_str(signo, exponente, mantissa, 64)
+    print(binario)
+    numero = bin_to_float64(binario)
+    return render(request, 'IEEE_754/resultado_binario64.html', {'numero':numero})
+
+def numero_to_str(signo,exponente,mantiza,bits):
+    numero = ""
+    if(bits == 32):
+        if len(exponente) < 8:
+            exponente+='0'*(8-len(exponente))
+        if len(mantiza) < 23:
+            mantiza += '0' * (23 - len(mantiza))
+            numero+=signo
+            numero+=exponente
+            numero+=mantiza
+    elif bits == 64:
+        if len(exponente) < 11:
+            exponente+='0'*(11-len(exponente))
+        if len(mantiza) < 52:
+            mantiza += '0' * (52 - len(mantiza))
+            numero+=signo
+            numero+=exponente
+            numero+=mantiza
+    return numero
