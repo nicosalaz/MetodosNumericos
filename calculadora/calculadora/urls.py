@@ -40,6 +40,7 @@ urlpatterns = [
     path('binarioDecimal64/',binarioDecimal64),
     # Ecuaciones no lineales
     path('form_biseccion/', mostar_form_biseccion,name='biseccion'),
+    path('resultado_biseccion/',resultado_biseccion),
 ]
 
 
