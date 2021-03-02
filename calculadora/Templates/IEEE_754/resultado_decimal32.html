@@ -1,10 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Resultado</title>
-</head>
-<body>
+{% extends "index.html" %}
+{% block titulo %}
+<title>Resultado</title>
+{% endblock %}
+{% block cuerpo %}
     <h3><strong>Conversiones Estandar IEEE 754</strong></h3>
 
     <p>RESULTADOS:</p>
@@ -12,5 +10,4 @@
     <P>numero en 64 bits:<strong>{{binario64}}</strong></P>
 
     <a href="{% url 'decimal_32'%}"><button>volver</button></a>
-</body>
-</html>
+{% endblock %}
