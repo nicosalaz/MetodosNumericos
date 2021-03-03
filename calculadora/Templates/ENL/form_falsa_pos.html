@@ -1,0 +1,45 @@
+{% extends "index.html" %}
+{% block titulo %}
+<title>Formulario Biseccion</title>
+{% endblock %}
+{% block cuerpo %}
+<h3>Formulario Falsa Posición</h3>
+<form action="/resultado_falsa_pos/" method="POST">
+    {% csrf_token %}
+    <table>
+        <tbody>
+            <tr>
+                <td><strong>Función</strong></td>
+                <td>
+                    <input type="text" name="funcion" placeholder="Función" required>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Límite Inferior</strong></td>
+                <td>
+                    <input type="text" name="lim_inf" placeholder="Límite Inferior" required>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Límite Superior</strong></td>
+                <td>
+                    <input type="text" name="lim_sup" placeholder="Límite Superior" required>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Error de Tolerancia</strong></td>
+                <td>
+                    <input type="text" name="error" placeholder="Error" required>%
+                </td>
+            </tr>
+            <tr>
+                <td><input class="btn" type="submit" value="Calcular"></td>
+                <td><input class="btn" type="reset"></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+</form>
+{% endblock %}
