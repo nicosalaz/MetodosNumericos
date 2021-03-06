@@ -41,8 +41,8 @@ urlpatterns = [
     # Ecuaciones no lineales
     path('form_biseccion/', mostar_form_biseccion,name='biseccion'),
     path('resultado_biseccion/',resultado_biseccion),
-    path('form_falsa_pos/',mostar_form_falsa_pos, name='falsa_posicion'),
     path('resultado_falsa_pos/',resultado_falsa_pos),
+    path('form_f_posicion/',mostar_form_falsa_pos,name='f_pos'),
 ]
 
 
