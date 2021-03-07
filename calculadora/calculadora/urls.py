@@ -43,6 +43,8 @@ urlpatterns = [
     path('resultado_biseccion/',resultado_biseccion),
     path('resultado_falsa_pos/',resultado_falsa_pos),
     path('form_f_posicion/',mostar_form_falsa_pos,name='f_pos'),
+    path('form_derivada/',mostar_form_derivada,name='derivada'),
+    path('resultado_dev/',resultado_dev),
 ]
 
 

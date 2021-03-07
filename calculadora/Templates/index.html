@@ -6,9 +6,9 @@
     <link rel="stylesheet" href="{% static 'app.css'%}">
     <link rel="stylesheet" href="{% static 'normalize.css'%}">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600;700&display=swap" rel="stylesheet">
    {%block titulo%}
-  <title>Title</title>
+  <title>Index</title>
     {%endblock%}
 </head>
 <body>
@@ -32,18 +32,19 @@
         </div>
        </header>
      {%block cuerpo%}
-       <div class="contenedor centrar">
-    <a href="{% url 'decimal'%}" class="btn">CALCULADORA DECIMAL</a>
-       <a class= "btn "  href="{% url 'binaria'%}"> Calculadora Binaria</a>
-    <a class= "btn " href="{% url 'hexa_dec'%}"> Calculadora Hexadecimal</a>
-    <a  class= "btn " href="{% url 'octal_dec'%}"> Calculadora Octal</a>
-           <a  class= "btn " href="{% url 'decimal_32'%}"> IEEE 32 - 64</a>
-           <a  class= "btn " href="{% url 'binario_32'%}"> BINARIO IEEE 32</a>
-           <a  class= "btn " href="{% url 'binario_64'%}"> BINARIO IEEE 64</a>
-           <a  class= "btn " href="{% url 'biseccion'%}"> Método de Bisección</a>
-           <a  class= "btn " href="{% url 'f_pos'%}"> Método de Regla Falsa</a>
-
+    <div class="contenedor centrar">
+        <a href="{% url 'decimal'%}" class="btn">CALCULADORA DECIMAL</a>
+        <a class= "btn "  href="{% url 'binaria'%}"> Calculadora Binaria</a>
+        <a class= "btn " href="{% url 'hexa_dec'%}"> Calculadora Hexadecimal</a>
+        <a  class= "btn " href="{% url 'octal_dec'%}"> Calculadora Octal</a>
+        <a  class= "btn " href="{% url 'decimal_32'%}"> IEEE 32 - 64</a>
+        <a  class= "btn " href="{% url 'binario_32'%}"> BINARIO IEEE 32</a>
+        <a  class= "btn " href="{% url 'binario_64'%}"> BINARIO IEEE 64</a>
+        <a  class= "btn " href="{% url 'derivada'%}">Calculadora de derivadas</a>
+        <a  class= "btn " href="{% url 'biseccion'%}"> Método de Bisección</a>
+        <a  class= "btn " href="{% url 'f_pos'%}"> Método de Regla Falsa</a>
     </div>
+
     <p class="mt contenedor">Métodos Númericos</p>
     {%endblock%}
 

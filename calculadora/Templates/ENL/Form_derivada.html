@@ -1,0 +1,31 @@
+{% extends "index.html" %}
+{% block titulo %}
+<title>Formulario Derivada</title>
+{% endblock %}
+{% block cuerpo %}
+<h3>Formulario Derivada</h3>
+<form action="/resultado_dev/" method="POST">
+    {% csrf_token %}
+    <table>
+        <tbody>
+            <tr>
+                <td><strong>Función</strong></td>
+                <td>
+                    <input type="text" name="funcion" placeholder="Función" required>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Número</strong></td>
+                <td>
+                    <input type="number" name="num" placeholder="Número" required>
+                </td>
+            </tr>
+            <tr>
+                <td><input class="btn" type="submit" value="Calcular"></td>
+                <td><input class="btn" type="reset"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</form>
+{% endblock %}

@@ -11,12 +11,15 @@ def mostar_form_biseccion(request):
 def mostar_form_falsa_pos(request):
     return render(request,'ENL/form_falsa_pos.html')
 
+def mostar_form_derivada(request):
+    return render(request,'ENL/Form_derivada.html')
+
 def resultado_biseccion(request):
     funcion = str(request.POST['funcion'])
     xi = request.POST['lim_inf']
     xf = request.POST['lim_sup']
     et = request.POST['error']
-    graficar_funcion(funcion)
+    graficar_funcion(funcion,xi,xf)
     result,er = metodo_biseccion(funcion,xi,xf,et)
     return render(request,'ENL/resultado_biseccion.html',{'resultado':result,'error_relativo':er})
 
@@ -25,7 +28,7 @@ def resultado_falsa_pos(request):
     xi = request.POST['lim_inf']
     xf = request.POST['lim_sup']
     et = request.POST['error']
-    graficar_funcion(funcion)
+    graficar_funcion(funcion,xi,xf)
     result,er = metodo_falsa_posicion(funcion,xi,xf,et)
     return render(request,'ENL/resultado_biseccion.html',{'resultado':result,'error_relativo':er})
 
@@ -72,14 +75,24 @@ def metodo_falsa_posicion(func,xi,xf,error=0.001,ite =50):
     else:
         return False, False
 
-def graficar_funcion(func):
+def graficar_funcion(func,xi,xf):
     ecu = sp.sympify(func)
+    inf = int(xi)
+    sup = int(xf)
     sim = sp.symbols('x')
-    sp.plot(ecu,(sim,-10,10))
-# def graficar_funcion(func,xi,xf):
-#     ecu = sp.sympify(func)
-#     x = np.linspace(float(xi),float(xf))
-#     f = ecu.evalf(subs={'x':x})
-#     plt.plot(x,f)
-#     plt.grid()
-#     plt.show()
+    sp.plot(ecu,(sim,inf,sup))
+
+def resultado_dev(request):
+    funcion = request.POST['funcion']
+    x = sp.symbols('x')
+    numero = request.POST['num']
+    p_d = sp.diff(funcion, x)
+    s_d = sp.diff(funcion, x,2)
+    r_pd = int(sp.diff(funcion, x).evalf(subs={x: numero}))
+    r_sd = int(sp.diff(funcion, x,2).evalf(subs={x: numero}))
+    print("Primera derivada ", sp.diff(funcion, x, 1))
+    print("Segunda derivada ", sp.diff(funcion, x, 2))
+    print("Resultado primera derivada ", sp.diff(funcion, x, 1).evalf(subs={x: numero}))
+    print("Resultado segunda derivada ", sp.diff(funcion, x, 2).evalf(subs={x: numero}))
+
+    return render(request,'ENL/resultado_dev.html',{'p_d':p_d,'s_d':s_d,'r_pd':r_pd,'r_sd':r_sd,})

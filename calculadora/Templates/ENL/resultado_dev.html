@@ -1,0 +1,14 @@
+{% extends "index.html" %}
+{%block titulo%}
+<title>Resultado</title>
+{%endblock%}
+{%block cuerpo%}
+<h3><strong>Resultado</strong></h3>
+
+<p>Primera Derivada: <strong>{{p_d}}</strong></p>
+    <p>resultado = {{r_pd}}</p>
+<p>Segunda Derivada: <strong>{{s_d}}</strong></p>
+    <p>resultado = {{r_sd}}</p>
+
+<a href="{% url 'derivada'%}"><button>volver</button></a>
+{%endblock%}
