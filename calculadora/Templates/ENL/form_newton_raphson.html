@@ -1,0 +1,37 @@
+{% extends "index.html" %}
+{% block titulo %}
+<title>Formulario Newton Raphson</title>
+{% endblock %}
+{% block cuerpo %}
+<h3>Formulario Newton Raphson</h3>
+<form action="/resultado_n_r/" method="POST">
+    {% csrf_token %}
+    <table>
+        <tbody>
+            <tr>
+                <td><strong>Función</strong></td>
+                <td>
+                    <input type="text" name="funcion" placeholder="Función" required>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Punto Inicial</strong></td>
+                <td>
+                    <input type="text" name="pun_ini" placeholder="Límite Inferior" required>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Error de Tolerancia</strong></td>
+                <td>
+                    <input type="text" name="error" placeholder="Error" required>
+                </td>
+            </tr>
+            <tr>
+                <td><input class="btn" type="submit" value="Calcular"></td>
+                <td><input class="btn" type="reset"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</form>
+{% endblock %}

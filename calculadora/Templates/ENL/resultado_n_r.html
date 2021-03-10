@@ -1,0 +1,16 @@
+{% extends "index.html" %}
+{%block titulo%}
+<title>Resultado</title>
+{%endblock%}
+{%block cuerpo%}
+<h3><strong>Resultado</strong></h3>
+
+{% if resultado != False%}
+<p>Raiz: <strong>{{raiz}}</strong></p>
+<p>Error Relativo: <strong>{{error}}</strong></p>
+{% else %}
+<p>El cálculo de la derivada es 0</p>
+{% endif %}
+
+<a href="{% url 'n_raphson'%}"><button>volver</button></a>
+{%endblock%}

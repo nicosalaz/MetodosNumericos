@@ -14,6 +14,9 @@ def mostar_form_falsa_pos(request):
 def mostar_form_derivada(request):
     return render(request,'ENL/Form_derivada.html')
 
+def mostar_form_n_r(request):
+    return render(request,'ENL/form_newton_raphson.html')
+
 def resultado_biseccion(request):
     funcion = str(request.POST['funcion'])
     xi = request.POST['lim_inf']
@@ -31,6 +34,15 @@ def resultado_falsa_pos(request):
     graficar_funcion(funcion,xi,xf)
     result,er = metodo_falsa_posicion(funcion,xi,xf,et)
     return render(request,'ENL/resultado_biseccion.html',{'resultado':result,'error_relativo':er})
+
+def resultado_n_r(request):
+    func = request.POST['funcion']
+    numero = request.POST['pun_ini']
+    error_tol = request.POST['error']
+    graficar_funcion(func,0,numero)
+    result,error = metodo_newton_raphson(func,numero,error_tol)
+
+    return render(request,'ENL/resultado_n_r.html',{'raiz':result,'error':error})
 
 def determinar_func(func,valor):
     ecuacion = sp.sympify(func)
@@ -75,7 +87,26 @@ def metodo_falsa_posicion(func,xi,xf,error=0.001,ite =50):
     else:
         return False, False
 
-def graficar_funcion(func,xi,xf):
+def metodo_newton_raphson(func,p_inical,error_tolerancia):
+    xi = p_inical
+    xr = 0
+    er = 100
+    i = 0
+    while er > float(error_tolerancia) and i <= 50:
+        #print('i:',i)
+        if float(calcular_derivada(func,xi)) == 0:
+            return False,False
+        xr = float(xi) - (float(determinar_func(func,xi))/float(calcular_derivada(func,xi)))
+        #print('xr:',xr)
+        er = abs(((float(xi) - float(xr))/float(xr)))
+        #print('er:', er)
+        xi = float(xr)
+        i += 1
+
+    return '{:.5f}'.format(xr),'{:.8f}'.format(er)
+
+
+def graficar_funcion(func,xi = -10,xf = 10):
     ecu = sp.sympify(func)
     inf = int(xi)
     sup = int(xf)
@@ -90,9 +121,18 @@ def resultado_dev(request):
     s_d = sp.diff(funcion, x,2)
     r_pd = int(sp.diff(funcion, x).evalf(subs={x: numero}))
     r_sd = int(sp.diff(funcion, x,2).evalf(subs={x: numero}))
-    print("Primera derivada ", sp.diff(funcion, x, 1))
-    print("Segunda derivada ", sp.diff(funcion, x, 2))
-    print("Resultado primera derivada ", sp.diff(funcion, x, 1).evalf(subs={x: numero}))
-    print("Resultado segunda derivada ", sp.diff(funcion, x, 2).evalf(subs={x: numero}))
+    # print("Primera derivada ", sp.diff(funcion, x, 1))
+    # print("Segunda derivada ", sp.diff(funcion, x, 2))
+    # print("Resultado primera derivada ", sp.diff(funcion, x, 1).evalf(subs={x: numero}))
+    # print("Resultado segunda derivada ", sp.diff(funcion, x, 2).evalf(subs={x: numero}))
 
     return render(request,'ENL/resultado_dev.html',{'p_d':p_d,'s_d':s_d,'r_pd':r_pd,'r_sd':r_sd,})
+
+def calcular_derivada(func,valor):
+    funcion = sp.sympify(func)
+    x = sp.symbols('x')
+    numero = valor
+    p_d = sp.diff(funcion, x)
+    r_pd = int(sp.diff(funcion, x).evalf(subs={x: numero}))
+
+    return r_pd
