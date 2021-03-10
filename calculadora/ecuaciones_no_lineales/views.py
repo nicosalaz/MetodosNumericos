@@ -154,7 +154,7 @@ def resultado_dev(request):
     p_d = sp.diff(funcion, x)
     s_d = sp.diff(funcion, x,2)
     r_pd = float(sp.diff(funcion, x).evalf(subs={x: numero}))
-    r_sd = float(sp.diff(funcion, x,2).evalf(subs={x: numero}))
+    r_sd = int(sp.diff(funcion, x,2).evalf(subs={x: numero}))
     # print("Primera derivada ", sp.diff(funcion, x, 1))
     # print("Segunda derivada ", sp.diff(funcion, x, 2))
     # print("Resultado primera derivada ", sp.diff(funcion, x, 1).evalf(subs={x: numero}))
