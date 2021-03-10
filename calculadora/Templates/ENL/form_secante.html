@@ -1,10 +1,10 @@
 {% extends "index.html" %}
 {% block titulo %}
-<title>Formulario Newton Raphson</title>
+<title>Formulario de la secante</title>
 {% endblock %}
 {% block cuerpo %}
-<h3>Formulario Newton Raphson</h3>
-<form action="/resultado_n_r/" method="POST">
+<h3>Formulario de la secante</h3>
+<form action="/resultado_secante/" method="POST">
     {% csrf_token %}
     <table>
         <tbody>
@@ -15,15 +15,21 @@
                 </td>
             </tr>
             <tr>
-                <td><strong>Punto Inicial</strong></td>
+                <td><strong>Límite Inferior</strong></td>
                 <td>
-                    <input type="text" name="pun_ini" placeholder="Límite Inferior" required>
+                    <input type="text" name="lim_inf" placeholder="Límite Inferior" required>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Límite Superior</strong></td>
+                <td>
+                    <input type="text" name="lim_sup" placeholder="Límite Superior" required>
                 </td>
             </tr>
             <tr>
                 <td><strong>Error de Tolerancia</strong></td>
                 <td>
-                    <input type="text" name="error" placeholder="Error" >
+                    <input type="text" name="error" placeholder="Error" required>%
                 </td>
             </tr>
             <tr>

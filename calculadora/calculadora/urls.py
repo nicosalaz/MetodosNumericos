@@ -47,6 +47,9 @@ urlpatterns = [
     path('resultado_dev/',resultado_dev),
     path('form_n_r/',mostar_form_n_r,name='n_raphson'),
     path('resultado_n_r/',resultado_n_r),
+    path('form_secante/',mostar_form_secante,name='secante'),
+    path('resultado_secante/',resultado_secante),
+
 ]
 
 

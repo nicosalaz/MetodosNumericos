@@ -14,6 +14,9 @@ def mostar_form_falsa_pos(request):
 def mostar_form_derivada(request):
     return render(request,'ENL/Form_derivada.html')
 
+def mostar_form_secante(request):
+    return render(request,'ENL/form_secante.html')
+
 def mostar_form_n_r(request):
     return render(request,'ENL/form_newton_raphson.html')
 
@@ -43,6 +46,17 @@ def resultado_n_r(request):
     result,error = metodo_newton_raphson(func,numero,error_tol)
 
     return render(request,'ENL/resultado_n_r.html',{'raiz':result,'error':error})
+
+def resultado_secante(request):
+    funcion = request.POST['funcion']
+    xi = request.POST['lim_inf']
+    xf = request.POST['lim_sup']
+    error_tol = request.POST['error']
+    graficar_funcion(funcion,xi,xf)
+    result,error = metodo_secante(funcion,xi,xf,error_tol)
+
+    return render(request,'ENL/resultado_secante.html',{'raiz':result,'error':error})
+
 
 def determinar_func(func,valor):
     ecuacion = sp.sympify(func)
@@ -87,11 +101,12 @@ def metodo_falsa_posicion(func,xi,xf,error=0.001,ite =50):
     else:
         return False, False
 
-def metodo_newton_raphson(func,p_inical,error_tolerancia):
+def metodo_newton_raphson(func,p_inical,error_tolerancia=0.0001):
     xi = p_inical
     xr = 0
     er = 100
     i = 0
+    ite = []
     while er > float(error_tolerancia) and i <= 50:
         #print('i:',i)
         if float(calcular_derivada(func,xi)) == 0:
@@ -102,8 +117,27 @@ def metodo_newton_raphson(func,p_inical,error_tolerancia):
         #print('er:', er)
         xi = float(xr)
         i += 1
+        ite.append((i,xr,er))
 
     return '{:.5f}'.format(xr),'{:.8f}'.format(er)
+
+def metodo_secante(func,xi,xf,error_tol):
+    funcion = str(func)
+    x0 = float(xi)
+    x1 = float(xf)
+    tolerancia = float(error_tol)
+    raiz = 0
+    i = 0
+    error = 1
+    while float(error) > float(tolerancia) and i <= 50:
+        raiz = float(float(x1) * float(determinar_func(funcion, x0)) - float(x0) *float(determinar_func(funcion, x1))) / (
+            float(determinar_func(funcion, x0)) - float(determinar_func(funcion, x1)))
+        error = abs((float(x1) - float(raiz)) / float(raiz))
+        x0 = float(x1)
+        x1 = float(raiz)
+        i = i + 1
+
+    return '{:.5f}'.format(raiz), '{:.10f}'.format(error)
 
 
 def graficar_funcion(func,xi = -10,xf = 10):
@@ -119,8 +153,8 @@ def resultado_dev(request):
     numero = request.POST['num']
     p_d = sp.diff(funcion, x)
     s_d = sp.diff(funcion, x,2)
-    r_pd = int(sp.diff(funcion, x).evalf(subs={x: numero}))
-    r_sd = int(sp.diff(funcion, x,2).evalf(subs={x: numero}))
+    r_pd = float(sp.diff(funcion, x).evalf(subs={x: numero}))
+    r_sd = float(sp.diff(funcion, x,2).evalf(subs={x: numero}))
     # print("Primera derivada ", sp.diff(funcion, x, 1))
     # print("Segunda derivada ", sp.diff(funcion, x, 2))
     # print("Resultado primera derivada ", sp.diff(funcion, x, 1).evalf(subs={x: numero}))
@@ -133,6 +167,6 @@ def calcular_derivada(func,valor):
     x = sp.symbols('x')
     numero = valor
     p_d = sp.diff(funcion, x)
-    r_pd = int(sp.diff(funcion, x).evalf(subs={x: numero}))
+    r_pd = float(sp.diff(funcion, x).evalf(subs={x: numero}))
 
     return r_pd
