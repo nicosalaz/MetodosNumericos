@@ -1,0 +1,25 @@
+{% extends "index.html" %}
+{% block titulo %}
+<title>Formulario Raices Polinomicas</title>
+{% endblock %}
+{% block cuerpo %}
+<h3>Formulario Raices Polinomicas</h3>
+<form action="/resultado_r_polinomios/" method="POST">
+    {% csrf_token %}
+    <table>
+        <tbody>
+            <tr>
+                <td><strong>Función</strong></td>
+                <td>
+                    <input type="text" name="funcion" placeholder="Función" required>
+                </td>
+            </tr>
+            <tr>
+                <td><input class="btn" type="submit" value="Calcular"></td>
+                <td><input class="btn" type="reset"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</form>
+{% endblock %}

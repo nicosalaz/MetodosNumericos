@@ -3,7 +3,7 @@ import numpy as np
 import sympy as sp
 from django.shortcuts import render
 
-
+################################################## HTML ##################################################
 
 def mostar_form_biseccion(request):
     return render(request,'ENL/form_biseccion.html')
@@ -19,6 +19,11 @@ def mostar_form_secante(request):
 
 def mostar_form_n_r(request):
     return render(request,'ENL/form_newton_raphson.html')
+
+def mostar_form_r_polinomios(request):
+    return render(request,'ENL/form_r_polinomios.html')
+
+################################################## RESULTADOS ##################################################
 
 def resultado_biseccion(request):
     funcion = str(request.POST['funcion'])
@@ -57,6 +62,27 @@ def resultado_secante(request):
 
     return render(request,'ENL/resultado_secante.html',{'raiz':result,'error':error})
 
+def resultado_dev(request):
+    funcion = request.POST['funcion']
+    x = sp.symbols('x')
+    numero = request.POST['num']
+    p_d = sp.diff(funcion, x)
+    s_d = sp.diff(funcion, x,2)
+    r_pd = float(sp.diff(funcion, x).evalf(subs={x: numero}))
+    r_sd = float(sp.diff(funcion, x,2).evalf(subs={x: numero}))
+    # print("Primera derivada ", sp.diff(funcion, x, 1))
+    # print("Segunda derivada ", sp.diff(funcion, x, 2))
+    # print("Resultado primera derivada ", sp.diff(funcion, x, 1).evalf(subs={x: numero}))
+    # print("Resultado segunda derivada ", sp.diff(funcion, x, 2).evalf(subs={x: numero}))
+
+    return render(request,'ENL/resultado_dev.html',{'p_d':p_d,'s_d':s_d,'r_pd':r_pd,'r_sd':r_sd,})
+
+def resultado_r_polinomios(request):
+    func = request.POST['funcion']
+    list_r,list_im = organizarRaices(raicesdepolinomios(func))
+    return render(request,'ENL/resultado_r_polinomios.html',{'reales':list_r,'imaginarios':list_im})
+
+################################################## LOGICA ##################################################
 
 def determinar_func(func,valor):
     ecuacion = sp.sympify(func)
@@ -78,7 +104,7 @@ def metodo_biseccion(func,xi,xf,error=0.001,ite =50):
                 xi = ri
             else:
                 xf = ri
-        return '{:.5f}'.format(ri),'{:.5f}'.format(error_calculado)
+        return '{:.5f}'.format(ri),'{:.8f}'.format(error_calculado)
 
     else:
         return False,False
@@ -96,7 +122,7 @@ def metodo_falsa_posicion(func,xi,xf,error=0.001,ite =50):
                 xi = ri
             else:
                 xf = ri
-        return '{:.5f}'.format(ri), '{:.5f}'.format(error_calculado)
+        return '{:.5f}'.format(ri), '{:.8f}'.format(error_calculado)
 
     else:
         return False, False
@@ -147,20 +173,6 @@ def graficar_funcion(func,xi = -10,xf = 10):
     sim = sp.symbols('x')
     sp.plot(ecu,(sim,inf,sup))
 
-def resultado_dev(request):
-    funcion = request.POST['funcion']
-    x = sp.symbols('x')
-    numero = request.POST['num']
-    p_d = sp.diff(funcion, x)
-    s_d = sp.diff(funcion, x,2)
-    r_pd = float(sp.diff(funcion, x).evalf(subs={x: numero}))
-    r_sd = float(sp.diff(funcion, x,2).evalf(subs={x: numero}))
-    # print("Primera derivada ", sp.diff(funcion, x, 1))
-    # print("Segunda derivada ", sp.diff(funcion, x, 2))
-    # print("Resultado primera derivada ", sp.diff(funcion, x, 1).evalf(subs={x: numero}))
-    # print("Resultado segunda derivada ", sp.diff(funcion, x, 2).evalf(subs={x: numero}))
-
-    return render(request,'ENL/resultado_dev.html',{'p_d':p_d,'s_d':s_d,'r_pd':r_pd,'r_sd':r_sd,})
 
 def calcular_derivada(func,valor):
     funcion = sp.sympify(func)
@@ -170,3 +182,102 @@ def calcular_derivada(func,valor):
     r_pd = float(sp.diff(funcion, x).evalf(subs={x: numero}))
 
     return r_pd
+
+def sacarValoresDeFuncion(funcion):
+    i=0
+    aux=""
+    lista= list()
+    fin=len(funcion)-1
+    while i<len(funcion):
+        if funcion[i]=="+":
+            lista.append(aux)
+            aux=""
+        if funcion[i]=="-" and i != 0:
+            lista.append(aux)
+            aux=""
+        if i== fin:
+            aux += funcion[fin]
+            lista.append(aux)
+            aux=""
+        else:
+                aux+=funcion[i]
+        i+=1
+
+    return lista
+
+def sacarMayorCofeciente(lista):
+    i=0
+    aux=""
+    listaDenumeroGrados= list()
+    caracter ="^"
+    guardarMenos=""
+    while i<len(lista):
+        for k in range(0,len(lista[i])):
+            if caracter not in lista[i]:
+                if lista[i][k] =="-":
+                    guardarMenos = lista[i][k]
+                if lista[i][k].isdigit() == True or lista[i][k] ==".":
+                    aux+=lista[i][k]
+                if lista[i][k] == "x":
+                    if aux =="":
+                        aux+="1"
+                    if guardarMenos !="":
+                        listaDenumeroGrados.append([float(1),-float(aux)])
+
+                    else:
+                        listaDenumeroGrados.append([float(1),float(aux)])
+                    guardarMenos = ""
+                    aux=""
+                if k == len(lista[i])-1 and lista[i][len(lista[i])-1] != "x":
+                    if guardarMenos != "":
+                        listaDenumeroGrados.append([float(0),-float(aux)])
+                    else:
+                        listaDenumeroGrados.append([float(0),float(aux)])
+                    aux=""
+                    guardarMenos = ""
+
+            if caracter in lista[i]:
+                if lista[i][k] =="-":
+                    guardarMenos = lista[i][k]
+                if k == len(lista[i])-1:
+                    if aux == "":
+                        aux+="1"
+                    auxDos=lista[i][len(lista[i])-1]
+                    if guardarMenos !="":
+                        listaDenumeroGrados.append([float(auxDos),-float(aux)])
+                    else:
+                        listaDenumeroGrados.append([float(auxDos),float(aux)])
+                    aux=""
+                    guardarMenos=""
+                if (lista[i][k].isdigit() == True or  lista[i][k] =="." )and k != len(lista[i])-1 :
+                    aux+=lista[i][k]
+        i+=1
+    return listaDenumeroGrados
+
+def organizarLista(lista):
+    retono=sorted(lista)
+
+    return retono
+
+def raicesdepolinomios(funcion):
+    polinomio=organizarLista(sacarMayorCofeciente(sacarValoresDeFuncion(funcion)))
+    polinomio.reverse()
+    raicesAsacar=list()
+    raicesDeUnpolinomio=list()
+    for i in range(0,len(polinomio)):
+        raicesAsacar.append(polinomio[i][1])
+    raicesDeUnpolinomio= np.roots(raicesAsacar)
+
+    return raicesDeUnpolinomio
+
+def organizarRaices(lista):
+    strj=""
+    listaReales=list()
+    listaImag=list()
+    for i in lista:
+        strj=str(i)
+        if "j" in strj:
+            listaImag.append(strj.replace('j','i'))
+        else:
+            listaReales.append(strj)
+    return listaReales,listaImag

@@ -49,6 +49,9 @@ urlpatterns = [
     path('resultado_n_r/',resultado_n_r),
     path('form_secante/',mostar_form_secante,name='secante'),
     path('resultado_secante/',resultado_secante),
+    path('form_r_polinomios/',mostar_form_r_polinomios,name='polinomios'),
+    path('resultado_r_polinomios/',resultado_r_polinomios),
+
 
 ]
 

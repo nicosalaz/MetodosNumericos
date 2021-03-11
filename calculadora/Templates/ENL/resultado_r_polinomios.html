@@ -1,0 +1,27 @@
+{% extends "index.html" %}
+{%block titulo%}
+<title>Resultado</title>
+{%endblock%}
+{%block cuerpo%}
+<h3><strong>Resultado</strong></h3>
+
+<p><strong>Raices Reales:</strong></p>
+{% if reales %}
+{% for real in reales%}
+<p>{{real}}</p>
+{% endfor %}
+{% else %}
+<p >No hay raices reales.</p>
+{% endif %}
+
+<p><strong>Raices Imaginarias:</strong></p>
+{% if imaginarios %}
+{% for ima in imaginarios %}
+<p>{{ima}}</p>
+{% endfor %}
+{% else %}
+<p>No hay raices imaginarias.</p>
+{% endif %}
+
+<a href="{% url 'polinomios'%}"><button>volver</button></a>
+{%endblock%}
