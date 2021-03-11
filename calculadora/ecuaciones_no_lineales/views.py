@@ -1,7 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import sympy as sp
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 
 ################################################## HTML ##################################################
 
@@ -22,6 +22,9 @@ def mostar_form_n_r(request):
 
 def mostar_form_r_polinomios(request):
     return render(request,'ENL/form_r_polinomios.html')
+
+def mostar_form_graficador(request):
+    return render(request,'ENL/form_graficador.html')
 
 ################################################## RESULTADOS ##################################################
 
@@ -79,8 +82,15 @@ def resultado_dev(request):
 
 def resultado_r_polinomios(request):
     func = request.POST['funcion']
+    graficar_funcion(func)
     list_r,list_im = organizarRaices(raicesdepolinomios(func))
     return render(request,'ENL/resultado_r_polinomios.html',{'reales':list_r,'imaginarios':list_im})
+
+def resultado_graficador(request):
+    func = request.POST['funcion']
+    graficar_funcion(func)
+    return redirect('graficador')
+
 
 ################################################## LOGICA ##################################################
 

@@ -1,0 +1,26 @@
+{% extends "index.html" %}
+{% block titulo %}
+<title>Formulario Graficador</title>
+{% endblock %}
+{% block cuerpo %}
+<h3>Formulario Graficador</h3>
+<form action="/resultado_graficador/" method="POST">
+    {% csrf_token %}
+    <table>
+        <tbody>
+            <tr>
+                <td><strong>Función</strong></td>
+                <td>
+                    <input type="text" name="funcion" placeholder="Función" required>
+                </td>
+            </tr>
+            <tr>
+                <td><input class="btn" type="submit" value="Graficar"></td>
+                <td><input class="btn" type="reset"></td>
+                <td><a  class= "btn " href="{% url 'index'%}"> Volver</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+</form>
+{% endblock %}

@@ -51,6 +51,8 @@ urlpatterns = [
     path('resultado_secante/',resultado_secante),
     path('form_r_polinomios/',mostar_form_r_polinomios,name='polinomios'),
     path('resultado_r_polinomios/',resultado_r_polinomios),
+    path('form_graficador/',mostar_form_graficador,name='graficador'),
+    path('resultado_graficador/',resultado_graficador),
 
 
 ]
