@@ -176,10 +176,10 @@ def metodo_secante(func,xi,xf,error_tol):
     return '{:.5f}'.format(raiz), '{:.10f}'.format(error)
 
 
-def graficar_funcion(func,xi = -10,xf = 10):
+def graficar_funcion(func):
     ecu = sp.sympify(func)
-    inf = int(xi)
-    sup = int(xf)
+    inf = int(-10)
+    sup = int(10)
     sim = sp.symbols('x')
     sp.plot(ecu,(sim,inf,sup))
 
