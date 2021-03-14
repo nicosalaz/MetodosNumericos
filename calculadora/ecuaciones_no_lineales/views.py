@@ -178,8 +178,8 @@ def metodo_secante(func,xi,xf,error_tol):
 
 def graficar_funcion(func):
     ecu = sp.sympify(func)
-    inf = int(-10)
-    sup = int(10)
+    inf = float(-10)
+    sup = float(10)
     sim = sp.symbols('x')
     sp.plot(ecu,(sim,inf,sup))
 
