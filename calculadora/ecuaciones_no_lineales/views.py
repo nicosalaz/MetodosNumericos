@@ -176,7 +176,7 @@ def metodo_secante(func,xi,xf,error_tol):
     return '{:.5f}'.format(raiz), '{:.10f}'.format(error)
 
 
-def graficar_funcion(func):
+def graficar_funcion(func,xi = 10,xf = 10):
     ecu = sp.sympify(func)
     inf = float(-10)
     sup = float(10)
