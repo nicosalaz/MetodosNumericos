@@ -291,3 +291,6 @@ def organizarRaices(lista):
         else:
             listaReales.append(strj)
     return listaReales,listaImag
+
+
+#alejandro es una loca
