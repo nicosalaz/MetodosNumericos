@@ -293,4 +293,3 @@ def organizarRaices(lista):
     return listaReales,listaImag
 
 
-#alejandro es una loca
