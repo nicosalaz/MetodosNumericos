@@ -50,7 +50,7 @@ def resultado_n_r(request):
     func = request.POST['funcion']
     numero = request.POST['pun_ini']
     error_tol = request.POST['error']
-    graficar_funcion(func,0,numero)
+    graficar_funcion(func,-10,numero)
     result,error = metodo_newton_raphson(func,numero,error_tol)
 
     return render(request,'ENL/resultado_n_r.html',{'raiz':result,'error':error})
@@ -176,10 +176,10 @@ def metodo_secante(func,xi,xf,error_tol):
     return '{:.5f}'.format(raiz), '{:.10f}'.format(error)
 
 
-def graficar_funcion(func,xi = 10,xf = 10):
+def graficar_funcion(func,xi = -10,xf = 10):
     ecu = sp.sympify(func)
-    inf = float(-10)
-    sup = float(10)
+    inf = float(xi)
+    sup = float(xf)
     sim = sp.symbols('x')
     sp.plot(ecu,(sim,inf,sup))
 
