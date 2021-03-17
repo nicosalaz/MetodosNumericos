@@ -4,17 +4,18 @@
 {% endblock %}
 {% block cuerpo %}
 <h1>Formato IEEE 754(64 bits)</h1>
-<h3>decimal - dinario</h3>
-<form method="POST" action="/decimalBinario64/">
+<h3>binario - decimal</h3>
+<form method="POST" action="/binarioDecimal64/">
     {% csrf_token %}
-    <input name="numero" type="number" step="any">
+    <input name="signo" type="number" step="any" placeholder="Signo">
+    <input name="exponente" type="number" step="any" placeholder="Exponente">
+    <input name="mantissa" type="number" step="any" placeholder="Mantissa">
     <input type="submit" value="calcular">
     <br>
     <br>
+    <a href="/decimal_binario32/">decimal_binario</a>
+    <br>
     <a href="/binario_decimal32/">binario-decimal(32)</a>
     <br>
-    <a href="/binario_decimal64/">binario-decimal(64)</a>
-    <br>
-    <a href="/decimal_binario32/">decimal-binario(32)</a>
 </form>
 {% endblock %}

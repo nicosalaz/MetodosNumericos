@@ -3,7 +3,8 @@
 <title>Formulario Derivada</title>
 {% endblock %}
 {% block cuerpo %}
-<h3>Formulario Derivada</h3>
+<div class="contenedor font_web" >
+<h3 class="resultado_bases">Formulario Derivada</h3>
 <form action="/resultado_dev/" method="POST">
     {% csrf_token %}
     <table>
@@ -28,4 +29,5 @@
     </table>
 
 </form>
+    </div>
 {% endblock %}

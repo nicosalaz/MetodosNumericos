@@ -15,6 +15,8 @@
 html {
     box-sizing: border-box;
     font-size: 62.5%;
+      min-height: 100%;
+  position: relative;
 }
 
 *, *:before, *:after {
@@ -26,6 +28,8 @@ body {
     background-color: var(--bodybg);
     font-size: 1.6rem;
     line-height: 1.5;
+     margin: 0;
+        margin-bottom: 40px;
 }
 
 img {
@@ -110,4 +114,44 @@ btn:active{
     color: #000000;
     text-align: center;
 }
+.resultado_bases{
+    font-weight: 700;
+    color: #3369ff;
+    font-size: 2rem;
+    font-family: var(--fuenteHeader);
+}
+.tamano_contenedor_iee{
+    height: 4.4rem;
+}
+.titulo_iee{
+    font-weight: 700;
+    color: var(--negro);
+    font-size: 2rem;
+    font-family: var(--fuenteHeader);
+}
+.titulo_resultado{
+    font-weight: 700;
+    color: var(--negro);
+    font-size: 1.5rem;
+    font-family: var(--fuenteHeader);
+}
+.font_web{
+    font-family: var(--fuenteHeader);
+}
+.footer{
+    background-color:  var(--headerbg);
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 5rem;
+  color: white;
 
+}
+.text{
+    text-align: center;
+}
+.color-footer{
+    color: #FFCE00;
+       font-family: sans-serif;
+    font-weight: bold;
+}

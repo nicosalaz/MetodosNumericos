@@ -3,6 +3,7 @@
 <title>Resultado</title>
 {%endblock%}
 {%block cuerpo%}
+<div class="contenedor font_web">
 <h3><strong>Resultado</strong></h3>
 
 {% if resultado != False%}
@@ -12,5 +13,6 @@
 <p>El cálculo de la derivada es 0</p>
 {% endif %}
 
-<a href="{% url 'n_raphson'%}"><button>volver</button></a>
+<a href="{% url 'n_raphson'%}" class="btn">volver</a>
+    </div>
 {%endblock%}

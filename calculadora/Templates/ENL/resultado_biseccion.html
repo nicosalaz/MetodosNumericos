@@ -3,7 +3,8 @@
 <title>Resultado</title>
 {%endblock%}
 {%block cuerpo%}
-<h3><strong>Resultado</strong></h3>
+<div class="contenedor ">
+<h3 class="resultado_bases"><strong>Resultado</strong></h3>
 
 {% if resultado != False%}
 <p>Raiz: <strong>{{resultado}}</strong></p>
@@ -12,5 +13,6 @@
 <p>No existe la solucion en este intervalo.</p>
 {% endif %}
 
-<a href="{% url 'biseccion'%}"><button>volver</button></a>
+<a href="{% url 'biseccion'%}" class="btn">volver</a>
+    </div>
 {%endblock%}

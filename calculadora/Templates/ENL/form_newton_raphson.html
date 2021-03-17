@@ -3,7 +3,8 @@
 <title>Formulario Newton Raphson</title>
 {% endblock %}
 {% block cuerpo %}
-<h3>Formulario Newton Raphson</h3>
+<div class="contenedor font_web">
+<h3 class="resultado_bases">Formulario Newton Raphson</h3>
 <form action="/resultado_n_r/" method="POST">
     {% csrf_token %}
     <table>
@@ -34,4 +35,5 @@
     </table>
 
 </form>
+    </div>
 {% endblock %}

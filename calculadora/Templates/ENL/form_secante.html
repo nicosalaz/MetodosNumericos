@@ -3,6 +3,7 @@
 <title>Formulario de la secante</title>
 {% endblock %}
 {% block cuerpo %}
+<div class="contenedor font_web">
 <h3>Formulario de la secante</h3>
 <form action="/resultado_secante/" method="POST">
     {% csrf_token %}
@@ -40,4 +41,5 @@
     </table>
 
 </form>
+    </div>
 {% endblock %}

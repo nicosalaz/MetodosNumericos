@@ -3,7 +3,8 @@
 <title>Formulario Graficador</title>
 {% endblock %}
 {% block cuerpo %}
-<h3>Formulario Graficador</h3>
+<div class="contenedor">
+<h3 class="resultado_bases">Formulario Graficador</h3>
 <form action="/resultado_graficador/" method="POST">
     {% csrf_token %}
     <table>
@@ -21,6 +22,6 @@
             </tr>
         </tbody>
     </table>
-
 </form>
+    </div>
 {% endblock %}

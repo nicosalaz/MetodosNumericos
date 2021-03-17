@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;600;700&display=swap" rel="stylesheet">
    {%block titulo%}
-  <title>Index</title>
+  <title>Sistema de calculadores</title>
     {%endblock%}
 </head>
 <body>
@@ -31,8 +31,10 @@
             </nav>
         </div>
        </header>
+
      {%block cuerpo%}
-    <div class="contenedor centrar">
+
+<div class="contenedor centrar">
         <a href="{% url 'decimal'%}" class="btn">CALCULADORA DECIMAL</a>
         <a class= "btn "  href="{% url 'binaria'%}"> Calculadora Binaria</a>
         <a class= "btn " href="{% url 'hexa_dec'%}"> Calculadora Hexadecimal</a>
@@ -53,8 +55,17 @@
         <a  class= "btn " href="{% url 'graficador'%}"> Graficador</a>
     </div>
 
+
+
     <p class="mt contenedor">Métodos Númericos</p>
     {%endblock%}
 
+<footer>
+    <div class="footer">
+        <div class="text">
+            <p class="color-footer">Todos los derechos reservados 2021 &copy </p>
+        </div>
+    </div>
+</footer>
 </body>
 </html>

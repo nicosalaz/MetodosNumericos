@@ -3,17 +3,18 @@
 <title>Calculadora IEEE 754</title>
 {% endblock %}
 {% block cuerpo %}
-<h1>Formato IEEE 754(32 bits - 64 bits)</h1>
-<h3>decimal - dinario</h3>
+<div class="contenedor">
+<h1 class="titulo_iee">Formato IEEE 754(32 bits - 64 bits)</h1>
+<h3 class="resultado_bases">Decimal - Binario</h3>
 <form method="POST" action="/decimalBinario32/">
     {% csrf_token %}
-    <input name="numero" type="number" step="any">
-    <input type="submit" value="calcular">
+    <input name="numero" type="number" step="any" class="tamano_contenedor_iee">
+    <input type="submit" value="calcular" class="btn">
     <br>
     <br>
-    <a href="/binario_decimal32/">binario-decimal(32)</a>
-    <br>
-    <a href="/binario_decimal64/">binario-decimal(64)</a>
+    <a href="/binario_decimal32/" class="btn">binario-decimal(32)</a>
+    <a href="/binario_decimal64/" class="btn">binario-decimal(64)</a>
     <br>
 </form>
+    </div>
 {% endblock %}

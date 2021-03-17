@@ -3,7 +3,8 @@
 <title>Formulario Raices Polinomicas</title>
 {% endblock %}
 {% block cuerpo %}
-<h3>Formulario Raices Polinomicas</h3>
+<div class="contenedor font_web">
+<h3 class="resultado_bases">Formulario Raices Polinomicas</h3>
 <form action="/resultado_r_polinomios/" method="POST">
     {% csrf_token %}
     <table>
@@ -22,4 +23,5 @@
     </table>
 
 </form>
+</div>
 {% endblock %}

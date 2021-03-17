@@ -3,9 +3,11 @@
 <title>Resultado</title>
 {% endblock %}
 {% block cuerpo %}
-<h3><strong>Conversiones Estandar IEEE 754</strong></h3>
+<div class="contenedor">
+<h3 class="resultado_bases"><strong>Conversiones Estandar IEEE 754</strong></h3>
 
     <p>RESULTADO: <strong>{{numero}}</strong></p>
 
-    <a href="{% url 'decimal_64'%}"><button>volver</button></a>
+    <a href="{% url 'decimal_64'%}" class="btn">volver</a>
+</div>
 {% endblock %}

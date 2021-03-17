@@ -3,6 +3,7 @@
 <title>Resultado</title>
 {%endblock%}
 {%block cuerpo%}
+<div class="contenedor">
 <h3><strong>Resultado</strong></h3>
 
 {% if resultado != False%}
@@ -12,5 +13,6 @@
 <p>No existe la solucion en este intervalo.</p>
 {% endif %}
 
-<a href="{% url 'f_pos'%}"><button>volver</button></a>
+<a href="{% url 'index'%}" class="btn">volver</a>
+</div>
 {%endblock%}
