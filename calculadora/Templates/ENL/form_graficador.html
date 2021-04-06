@@ -9,13 +9,25 @@
     {% csrf_token %}
     <table>
         <tbody>
-            <tr>
-                <td><strong>Función</strong></td>
-                <td>
-                    <input type="text" name="funcion" placeholder="Función" required>
-                </td>
-            </tr>
-            <tr>
+        <tr>
+            <td><strong>Función</strong></td>
+            <td>
+                <input type="text" name="funcion" placeholder="Función" required>
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Limite inferior</strong></td>
+            <td>
+                <input type="text" name="inf" placeholder="Limite inferior" >
+            </td>
+        </tr>
+        <tr>
+            <td><strong>Limite Supeior</strong></td>
+            <td>
+                <input type="text" name="sup" placeholder="Limite Supeior" >
+            </td>
+        </tr>
+        <tr>
                 <td><input class="btn" type="submit" value="Graficar"></td>
                 <td><input class="btn" type="reset"></td>
                 <td><a  class= "btn " href="{% url 'index'%}"> Volver</a></td>

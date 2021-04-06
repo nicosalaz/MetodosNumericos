@@ -88,7 +88,12 @@ def resultado_r_polinomios(request):
 
 def resultado_graficador(request):
     func = request.POST['funcion']
-    graficar_funcion(func)
+    lim_inf = request.POST['inf']
+    lim_sup = request.POST['inf']
+    if(len(lim_inf) != 0) and (len(lim_sup)!=0):
+        graficar_funcion(func,float(lim_inf),float(lim_sup))
+    else:
+        graficar_funcion(func)
     return redirect('graficador')
 
 
@@ -178,10 +183,10 @@ def metodo_secante(func,xi,xf,error_tol):
 
 def graficar_funcion(func,xi = -10,xf = 10):
     ecu = sp.sympify(func)
-    inf = float(xi)
-    sup = float(xf)
-    sim = sp.symbols('x')
-    sp.plot(ecu,(sim,inf,sup))
+    inf = int(xi)
+    sup = int(xf)
+    x = sp.symbols('x')
+    sp.plot(ecu,(x,inf,sup))
 
 
 def calcular_derivada(func,valor):
