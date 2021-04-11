@@ -54,10 +54,13 @@ urlpatterns = [
     path('resultado_r_polinomios/',resultado_r_polinomios),
     path('form_graficador/',mostar_form_graficador,name='graficador'),
     path('resultado_graficador/',resultado_graficador),
+    # Integrales
     path('form_integrales_rectangulo/',mostrar_form_integrales_rectangulo, name='integrales_r'),
     path('resultado_integrales_rectangulos/',resultado_integrales_rectangulos),
     path('form_integrales_trapecio/',mostrar_form_integrales_trapecio,name='trapecio'),
     path('resultado_integrales_trapecios/',resultado_integrales_trapecios),
+    path('form_integrales_simpson_1_3/', mostrar_form_integrales_simpson_1_3, name='simpson_1_3'),
+    path('resultado_integrales_simpson_1_3/',resultado_integrales_simpson_1_3),
 
 
 ]
