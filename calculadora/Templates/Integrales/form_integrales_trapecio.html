@@ -1,0 +1,47 @@
+{% extends "index.html" %}
+{% block titulo %}
+<title>Formulario Integrales por Trapecios</title>
+{% endblock %}
+{% block cuerpo %}
+<div class="contenedor font_web">
+<h3 class="resultado_bases">Formulario Integrales por Trapecios</h3>
+<form action="/resultado_integrales_trapecios/" method="POST">
+    {% csrf_token %}
+    <table>
+        <tbody>
+            <tr>
+                <td><strong>Función =</strong></td>
+                <td>
+                    <input type="text" name="funcion" placeholder="Función" required>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Extremo Izquierdo (a) =</strong></td>
+                <td>
+                    <input type="text" name="ext_izq" placeholder="Extremo Izquierdo" required>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Extremo Derecho (b) =</strong></td>
+                <td>
+                    <input type="text" name="ext_der" placeholder="Extremo Derecho" required>
+                </td>
+            </tr>
+            <tr>
+                <td><strong>Número De particiones (n) =</strong></td>
+                <td>
+                    <input type="text" name="n" placeholder="n" required>
+                </td>
+            </tr>
+            <tr>
+                <td><input class="btn" type="submit" value="Calcular"></td>
+                <td><input class="btn" type="reset"></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+</form>
+    </div>
+{% endblock %}
