@@ -56,8 +56,8 @@ urlpatterns = [
     path('resultado_graficador/',resultado_graficador),
     path('form_integrales_rectangulo/',mostrar_form_integrales_rectangulo, name='integrales_r'),
     path('resultado_integrales_rectangulos/',resultado_integrales_rectangulos),
-    #path('form_integrales_trapecio/',mostrar_form_integrales_trapecio,name='trapecio'),
-    #path('resultado_integrales_trapecios/',resultado_integrales_trapecios),
+    path('form_integrales_trapecio/',mostrar_form_integrales_trapecio,name='trapecio'),
+    path('resultado_integrales_trapecios/',resultado_integrales_trapecios),
 
 
 ]
