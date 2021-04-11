@@ -10,6 +10,10 @@
    {%block titulo%}
   <title>Sistema de calculadores</title>
     {%endblock%}
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
 </head>
 <body>
     <!--
@@ -56,6 +60,7 @@
     </div>
     <div class="contenedor centrar">
         <a  class= "btn " href="{% url 'integrales_r'%}"> Integrales Por Rectangulos</a>
+        <a  class= "btn " href="{% url 'trapecio'%}"> Integrales Por Trapecio</a>
     </div>
 
 
@@ -71,4 +76,5 @@
     </div>
 </footer>
 </body>
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/MathJax.js?config=default'></script>
 </html>
