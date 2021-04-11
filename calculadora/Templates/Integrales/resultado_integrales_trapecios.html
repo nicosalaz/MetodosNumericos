@@ -1,10 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "index.html" %}
+{%block titulo%}
+<title>Resultado</title>
+{%endblock%}
+{%block cuerpo%}
+<div class="contenedor font_web" >
+<h3 class="resultado_bases"><strong>Resultado</strong></h3>
 
-</body>
-</html>
+<p>Primera Derivada: <strong>{{p_d}}</strong></p>
+    <p>resultado = {{r_pd}}</p>
+<p>Segunda Derivada: <strong>{{s_d}}</strong></p>
+    <p>resultado = {{r_sd}}</p>
+
+
+</div>
+{%endblock%}
