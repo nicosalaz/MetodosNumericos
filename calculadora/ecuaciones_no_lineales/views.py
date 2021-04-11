@@ -89,9 +89,9 @@ def resultado_r_polinomios(request):
 def resultado_graficador(request):
     func = request.POST['funcion']
     lim_inf = request.POST['inf']
-    lim_sup = request.POST['inf']
+    lim_sup = request.POST['sup']
     if(len(lim_inf) != 0) and (len(lim_sup)!=0):
-        graficar_funcion(func,float(lim_inf),float(lim_sup))
+        graficar_funcion(func,lim_inf,lim_sup)
     else:
         graficar_funcion(func)
     return redirect('graficador')

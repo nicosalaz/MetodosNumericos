@@ -16,6 +16,7 @@ def resultado_integrales_rectangulos(request):
     a = request.POST['ext_izq']
     b = request.POST['ext_der']
     n = request.POST['n']
+    graficar_funcion(func,a,b)
     izq = intregales_rectangulos_izq(func,a,b,n)
     der = intregales_rectangulos_der(func,a,b,n)
     med = intregales_rectangulos_med(func,a,b,n)
@@ -27,6 +28,7 @@ def resultado_integrales_trapecios(request):
     a = request.POST['ext_izq']
     b = request.POST['ext_der']
     n = request.POST['n']
+    graficar_funcion(func,a,b)
     calculo = integrales_trapecios(func,a,b,n)
     return render(request,'integrales/resultado_integrales_trapecios.html',{'calculo':calculo,'func':func})
 
@@ -119,3 +121,10 @@ def integrales_trapecios(funcion,a,b,n):
     result += imagen_a + imagen_b
     result *= (deltaX/2)
     return '{:.5f}'.format(result)
+
+def graficar_funcion(func,xi = -10,xf = 10):
+    ecu = sp.sympify(func)
+    inf = int(xi)
+    sup = int(xf)
+    x = sp.symbols('x')
+    sp.plot(ecu,(x,inf,sup))
