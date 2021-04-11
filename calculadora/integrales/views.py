@@ -19,7 +19,8 @@ def resultado_integrales_rectangulos(request):
     izq = intregales_rectangulos_izq(func,a,b,n)
     der = intregales_rectangulos_der(func,a,b,n)
     med = intregales_rectangulos_med(func,a,b,n)
-    return render(request,'integrales/resultado_integrales_rectangulos.html',{'izq':izq,'der':der,'med':med})
+    return render(request,'integrales/resultado_integrales_rectangulos.html'
+                  ,{'izq':izq,'der':der,'med':med,'func':func})
 
 def resultado_integrales_trapecios(request):
     func = request.POST['funcion']
@@ -27,7 +28,7 @@ def resultado_integrales_trapecios(request):
     b = request.POST['ext_der']
     n = request.POST['n']
     calculo = integrales_trapecios(func,a,b,n)
-    return render(request,'integrales/resultado_integrales_trapecios.html',{'calculo':calculo})
+    return render(request,'integrales/resultado_integrales_trapecios.html',{'calculo':calculo,'func':func})
 
 ################################## lOGICA ##################################
 
@@ -84,7 +85,7 @@ def intregales_rectangulos_med(funcion,a,b,n):
         xn.append(float(aux))
         aux= (aux+(aux+deltaX))/2
     #print('delta: ',deltaX)
-    print('xn: ',xn)
+    #print('xn: ',xn)
     for x in xn:
         result += determinar_func(funcion,x)
     #print('resultado: ', '{:.5f}'.format(result))
