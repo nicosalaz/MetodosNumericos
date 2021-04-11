@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'calculadora_binaria',
     'ecuaciones_no_lineales',
+    'integrales',
 ]
 
 MIDDLEWARE = [

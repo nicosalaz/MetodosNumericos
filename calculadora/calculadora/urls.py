@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from calculadora_binaria.views import *
 from ecuaciones_no_lineales.views import *
+from integrales.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -53,6 +54,8 @@ urlpatterns = [
     path('resultado_r_polinomios/',resultado_r_polinomios),
     path('form_graficador/',mostar_form_graficador,name='graficador'),
     path('resultado_graficador/',resultado_graficador),
+    path('form_intragles_rectangulo/',mostrar_form_intragles_rectangulo, name='integrales_r'),
+    path('resultado_integrales_rectangulos/',resultado_integrales_rectangulos),
 
 
 ]
