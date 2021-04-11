@@ -1,3 +1,18 @@
+<<<<<<< HEAD
+{% extends "index.html" %}
+{%block titulo%}
+<title>Resultado</title>
+{%endblock%}
+{%block cuerpo%}
+<div class="contenedor font_web" >
+<h3 class="resultado_bases"><strong>Resultado</strong></h3>
+    <p><strong>Integral:</strong> $$ &#x222b {{func}}$$</p>
+    <p><strong>Valor de la Integral:</strong> {{calculo}}</p>
+    <p>Falta calcular el error</p>
+<a href="{% url 'trapecio'%}" class="btn">volver</a>
+</div>
+{%endblock%}
+=======
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,3 +23,4 @@
 
 </body>
 </html>
+>>>>>>> origin/master

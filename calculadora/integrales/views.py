@@ -3,7 +3,7 @@ import sympy as sp
 
 # Create your views here.
 ################################## HTML ##################################
-def mostrar_form_intragles_rectangulo(request):
+def mostrar_form_integrales_rectangulo(request):
     return render(request,'integrales/form_integrales_rectangulos.html')
 
 
