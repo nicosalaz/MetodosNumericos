@@ -1,6 +1,7 @@
 from django.shortcuts import render
 import sympy as sp
 import math
+import random
 
 
 # Create your views here.
@@ -15,6 +16,10 @@ def mostrar_form_integrales_trapecio(request):
 
 def mostrar_form_integrales_simpson_1_3(request):
     return render(request, 'integrales/form_integrales_simpson_1_3.html')
+
+
+def mostrar_form_integrales_simpson_3_8(request):
+    return render(request, 'integrales/form_integrales_simpson_3_8.html')
 
 
 ################################## RESULTADOS ##################################
@@ -48,8 +53,20 @@ def resultado_integrales_simpson_1_3(request):
     b = request.POST['ext_der']
     n = request.POST['n']
     graficar_funcion(func, a, b)
-    calculo = integralSimpson_1_3(func, a, b, n)
-    return render(request, 'integrales/resultado_integrales_simpson_1_3.html', {'calculo': calculo, 'func': func})
+    calculo, error = integralSimpson_1_3(func, a, b, n)
+    return render(request, 'integrales/resultado_integrales_simpson_1_3.html',
+                  {'calculo': calculo, 'func': func, 'error': error})
+
+
+def resultado_integrales_simpson_3_8(request):
+    func = request.POST['funcion']
+    a = request.POST['ext_izq']
+    b = request.POST['ext_der']
+    n = request.POST['n']
+    graficar_funcion(func, a, b)
+    calculo, error = integralSimpson_3_8(func, a, b, n)
+    return render(request, 'integrales/resultado_integrales_simpson_3_8.html',
+                  {'calculo': calculo, 'func': func, 'error': error})
 
 
 ################################## lOGICA ##################################
@@ -147,11 +164,24 @@ def integrales_trapecios(funcion, a, b, n):
     return '{:.5f}'.format(result)
 
 
+def calcular_derivada(func, valor):
+    funcion = sp.sympify(func)
+    x = sp.symbols('x')
+    numero = valor
+    r_pd = float(sp.diff(funcion, x, 4).evalf(subs={x: numero}))
+
+    return r_pd
+
+
 def integralSimpson_1_3(funcion, a, b, n):
+    if (int(n) % 2 != 0):
+        n += 1
     valorA = float(a)
     valorB = float(b)
     valorN = int(n)
     sumatoria = 0
+    epsilon = random.uniform(float(a), float(b))  # decimal
+    # epsilon = random.randint(a, b)  #entero
     delta = ((valorB - valorA) / valorN)
 
     for i in range(valorN + 1):
@@ -168,7 +198,46 @@ def integralSimpson_1_3(funcion, a, b, n):
 
     resultado = (delta / 3) * sumatoria
 
-    return resultado
+    derivada4 = calcular_derivada(funcion, float(epsilon))
+
+    error = -(((delta ** 5) / 90) * derivada4)
+
+    return resultado, error
+
+
+def integralSimpson_3_8(funcion, a, b, n):
+    if (int(n) % 3 == 1):
+        n += 2
+    elif (int(n) % 3 == 2):
+        n += 1
+
+    epsilon = random.uniform(float(a), float(b))  # decimal
+    # epsilon = random.randint(a, b)  #entero
+
+    valorA = float(a)
+    valorB = float(b)
+    valorN = int(n)
+
+    delta = ((valorB - valorA) / 3)
+
+    x0 = valorA
+    x1 = x0 + delta
+    x2 = x1 + delta
+    x3 = x2 + delta
+
+    fx0 = determinar_func(funcion, x0)
+    fx1 = determinar_func(funcion, x1)
+    fx2 = determinar_func(funcion, x2)
+    fx3 = determinar_func(funcion, x3)
+
+    derivada4 = calcular_derivada(funcion, float(epsilon))
+
+    error = -((3 / 80) * (delta ** 5)) * derivada4
+
+    resultado = ((3 * delta) / 8) * (fx0 + (3 * fx1) + (3 * fx2) + fx3)
+
+    return resultado, error
+
 
 def graficar_funcion(func, xi=-10, xf=10):
     ecu = sp.sympify(func)
