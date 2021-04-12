@@ -120,8 +120,6 @@ def intregales_rectangulos_med(funcion, a, b, n):
 
 
 def integrales_trapecios(funcion,a,b,n):
-    imagen_a = 0
-    imagen_b = 0
     deltaX = (float(b) - float(a)) / float(n)
     xn = []
     aux = float(a)
@@ -138,18 +136,14 @@ def integrales_trapecios(funcion,a,b,n):
         aux += deltaX
     #print('xn: ',xn)
     for x in xn:
-        if conta == 0 or conta == int(len(xn)):
-            pass
-        else:
-            result += determinar_func(funcion, x)
-        conta+=1
+        result += determinar_func(funcion, float(x))
         #print(determinar_func(funcion, x))
     #print('resultado: ', '{:.5f}'.format(result))
-    resultado_final = (float(determinar_func(funcion, float(a))) + (2 * result) + float(
-        determinar_func(funcion, float(b)))) * (deltaX / 2)
+    resultado_final = (float(imagen_a) + (2 * result) + float(imagen_b)) * (deltaX / 2)
     #print('resultado: ','{:.5f}'.format(resultado_final))
 
     return '{:.5f}'.format(resultado_final)
+
 
 
 def integralSimpson_1_3(funcion, a, b, n):
