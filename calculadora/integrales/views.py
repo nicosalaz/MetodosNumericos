@@ -136,14 +136,13 @@ def intregales_rectangulos_med(funcion, a, b, n):
     return '{:.5f}'.format(result)
 
 
-def integrales_trapecios(funcion, a, b, n):
-    imagen_a = 0
-    imagen_b = 0
+def integrales_trapecios(funcion,a,b,n):
     deltaX = (float(b) - float(a)) / float(n)
     xn = []
     aux = float(a)
     result = 0
-
+    resultado_final = 0
+    conta = 0
     imagen_a = determinar_func(funcion, a)
     imagen_b = determinar_func(funcion, b)
 
@@ -152,16 +151,16 @@ def integrales_trapecios(funcion, a, b, n):
             break
         xn.append(float(aux))
         aux += deltaX
-    # print('xn: ',xn)
+    #print('xn: ',xn)
     for x in xn:
-        result += determinar_func(funcion, x)
-    # print('resultado: ', '{:.5f}'.format(result))
+        result += determinar_func(funcion, float(x))
+        #print(determinar_func(funcion, x))
+    #print('resultado: ', '{:.5f}'.format(result))
+    resultado_final = (float(imagen_a) + (2 * result) + float(imagen_b)) * (deltaX / 2)
+    #print('resultado: ','{:.5f}'.format(resultado_final))
 
-    # print('resultado: ','{:.5f}'.format(result))
-    result *= 2
-    result += imagen_a + imagen_b
-    result *= (deltaX / 2)
-    return '{:.5f}'.format(result)
+    return '{:.5f}'.format(resultado_final)
+
 
 
 def calcular_derivada(func, valor):
