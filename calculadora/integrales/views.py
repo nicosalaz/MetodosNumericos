@@ -156,25 +156,19 @@ def integralSimpson_1_3(funcion, a, b, n):
 
     for i in range(valorN + 1):
         xi = (valorA + (i * delta))
-        valor = math.e ** (xi ** 2)
+        valor = determinar_func(funcion, xi)
         if xi == valorA or xi == valorB:
-            # sumatoria += determinar_func(funcion, i)
             sumatoria += valor
         elif i % 2 != 0:
-            # ecu = 4 * determinar_func(funcion, i)
-            # sumatoria += determinar_func(funcion, i)
             valor = 4 * valor
             sumatoria += valor
         elif i % 2 == 0:
-            # ecu = 2 * determinar_func(funcion, i)
-            # sumatoria += determinar_func(funcion, i)
             valor = 2 * valor
             sumatoria += valor
 
     resultado = (delta / 3) * sumatoria
 
     return resultado
-
 
 def graficar_funcion(func, xi=-10, xf=10):
     ecu = sp.sympify(func)
