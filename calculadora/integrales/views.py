@@ -119,14 +119,15 @@ def intregales_rectangulos_med(funcion, a, b, n):
     return '{:.5f}'.format(result)
 
 
-def integrales_trapecios(funcion, a, b, n):
+def integrales_trapecios(funcion,a,b,n):
     imagen_a = 0
     imagen_b = 0
     deltaX = (float(b) - float(a)) / float(n)
     xn = []
     aux = float(a)
     result = 0
-
+    resultado_final = 0
+    conta = 0
     imagen_a = determinar_func(funcion, a)
     imagen_b = determinar_func(funcion, b)
 
@@ -135,16 +136,20 @@ def integrales_trapecios(funcion, a, b, n):
             break
         xn.append(float(aux))
         aux += deltaX
-    # print('xn: ',xn)
+    #print('xn: ',xn)
     for x in xn:
-        result += determinar_func(funcion, x)
-    # print('resultado: ', '{:.5f}'.format(result))
+        if conta == 0 or conta == int(len(xn)):
+            pass
+        else:
+            result += determinar_func(funcion, x)
+        conta+=1
+        #print(determinar_func(funcion, x))
+    #print('resultado: ', '{:.5f}'.format(result))
+    resultado_final = (float(determinar_func(funcion, float(a))) + (2 * result) + float(
+        determinar_func(funcion, float(b)))) * (deltaX / 2)
+    #print('resultado: ','{:.5f}'.format(resultado_final))
 
-    # print('resultado: ','{:.5f}'.format(result))
-    result *= 2
-    result += imagen_a + imagen_b
-    result *= (deltaX / 2)
-    return '{:.5f}'.format(result)
+    return '{:.5f}'.format(resultado_final)
 
 
 def integralSimpson_1_3(funcion, a, b, n):
