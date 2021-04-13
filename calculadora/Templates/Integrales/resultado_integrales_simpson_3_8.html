@@ -5,7 +5,7 @@
 {%block cuerpo%}
 <div class="contenedor font_web" >
 <h3 class="resultado_bases"><strong>Resultado</strong></h3>
-    <p><strong>Integral:</strong> $$ &#x222b {{func}}$$</p>
+    <p><strong>Integral:</strong>$$ &#x222b_{{a}}^{{b}} {{func}} dx $$</p>
     <p><strong>Valor de la Integral:</strong> {{calculo}}</p>
     <p><strong>Error:</strong> {{error}}</p>
 <a href="{% url 'simpson_3_8'%}" class="btn">volver</a>
