@@ -136,7 +136,7 @@ def intregales_rectangulos_med(funcion, a, b, n):
     return '{:.5f}'.format(result)
 
 
-def integrales_trapecios(funcion,a,b,n):
+def integrales_trapecios(funcion, a, b, n):
     deltaX = (float(b) - float(a)) / float(n)
     xn = []
     aux = float(a)
@@ -151,16 +151,15 @@ def integrales_trapecios(funcion,a,b,n):
             break
         xn.append(float(aux))
         aux += deltaX
-    #print('xn: ',xn)
+    # print('xn: ',xn)
     for x in xn:
         result += determinar_func(funcion, float(x))
-        #print(determinar_func(funcion, x))
-    #print('resultado: ', '{:.5f}'.format(result))
+        # print(determinar_func(funcion, x))
+    # print('resultado: ', '{:.5f}'.format(result))
     resultado_final = (float(imagen_a) + (2 * result) + float(imagen_b)) * (deltaX / 2)
-    #print('resultado: ','{:.5f}'.format(resultado_final))
+    # print('resultado: ','{:.5f}'.format(resultado_final))
 
     return '{:.5f}'.format(resultado_final)
-
 
 
 def calcular_derivada(func, valor):
@@ -173,13 +172,14 @@ def calcular_derivada(func, valor):
 
 
 def integralSimpson_1_3(funcion, a, b, n):
-    if (int(n) % 2 != 0):
-        n += 1
+    aux = int(n)
+    if (aux % 2 != 0):
+        aux += 1
     valorA = float(a)
     valorB = float(b)
-    valorN = int(n)
+    valorN = aux
     sumatoria = 0
-    epsilon = random.uniform(float(a), float(b))  # decimal
+    epsilon = random.uniform(0, 1)  # decimal
     # epsilon = random.randint(a, b)  #entero
     delta = ((valorB - valorA) / valorN)
 
@@ -205,17 +205,18 @@ def integralSimpson_1_3(funcion, a, b, n):
 
 
 def integralSimpson_3_8(funcion, a, b, n):
-    if (int(n) % 3 == 1):
-        n += 2
-    elif (int(n) % 3 == 2):
-        n += 1
+    aux = int(n)
+    if (aux % 3 == 1):
+        aux += 2
+    elif (aux % 3 == 2):
+        aux += 1
 
-    epsilon = random.uniform(float(a), float(b))  # decimal
+    epsilon = random.uniform(0, 1)  # decimal
     # epsilon = random.randint(a, b)  #entero
 
     valorA = float(a)
     valorB = float(b)
-    valorN = int(n)
+    valorN = aux
 
     delta = ((valorB - valorA) / 3)
 
