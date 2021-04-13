@@ -179,8 +179,7 @@ def integralSimpson_1_3(funcion, a, b, n):
     valorB = float(b)
     valorN = aux
     sumatoria = 0
-    epsilon = random.uniform(0, 1)  # decimal
-    # epsilon = random.randint(a, b)  #entero
+    epsilon = random.uniform(0, 1)
     delta = ((valorB - valorA) / valorN)
 
     for i in range(valorN + 1):
@@ -211,13 +210,9 @@ def integralSimpson_3_8(funcion, a, b, n):
     elif (aux % 3 == 2):
         aux += 1
 
-    epsilon = random.uniform(0, 1)  # decimal
-    # epsilon = random.randint(a, b)  #entero
-
     valorA = float(a)
     valorB = float(b)
-    valorN = aux
-
+    epsilon = random.uniform(0, 1)
     delta = ((valorB - valorA) / 3)
 
     x0 = valorA
