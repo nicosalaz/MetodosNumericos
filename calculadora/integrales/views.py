@@ -69,7 +69,7 @@ def resultado_integrales_simpson_3_8(request):
     graficar_funcion(func, a, b)
     calculo, error = integralSimpson_3_8(func, a, b, n)
     return render(request, 'integrales/resultado_integrales_simpson_3_8.html',
-                  {'calculo': calculo, 'func': func, 'error': error})
+                  {'calculo': calculo, 'func': func, 'error': error,'a':a,'b':b})
 
 
 ################################## lOGICA ##################################
@@ -215,12 +215,13 @@ def integralSimpson_3_8(funcion, a, b, n):
         aux += 2
     elif (aux % 3 == 2):
         aux += 1
-
     valorA = float(a)
     valorB = float(b)
     randomico = random.uniform(0, 1)
     epsilon =  float(a)+randomico*(float(b)-float(b))
     delta = ((valorB - valorA) / 3)
+    resultado = 0
+
 
     x0 = valorA
     x1 = x0 + delta
@@ -239,7 +240,6 @@ def integralSimpson_3_8(funcion, a, b, n):
     resultado = ((3 * delta) / 8) * (fx0 + (3 * fx1) + (3 * fx2) + fx3)
 
     return resultado, error
-
 
 def graficar_funcion(func, xi=-10, xf=10):
     ecu = sp.sympify(func)
