@@ -152,7 +152,7 @@ def metodo_newton_raphson(func,p_inical,error_tolerancia=0.0001):
         #print('i:',i)
         if float(calcular_derivada(func,xi)) == 0:
             return False,False
-        xr = float(xi) - (float(determinar_func(func,xi))/float(calcular_derivada(func,xi)))
+        xr = (float(xi) - (float(determinar_func(func,float(xi)))/float(calcular_derivada(func,float(xi)))))
         #print('xr:',xr)
         er = abs(((float(xi) - float(xr))/float(xr)))
         #print('er:', er)
@@ -183,8 +183,8 @@ def metodo_secante(func,xi,xf,error_tol):
 
 def graficar_funcion(func,xi = -10,xf = 10):
     ecu = sp.sympify(func)
-    inf = int(xi)
-    sup = int(xf)
+    inf = float(xi)
+    sup = float(xf)
     x = sp.symbols('x')
     sp.plot(ecu,(x,inf,sup))
 

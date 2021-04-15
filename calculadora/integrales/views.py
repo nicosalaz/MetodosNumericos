@@ -87,8 +87,6 @@ def intregales_rectangulos_izq(funcion, a, b, n):
     aux = float(a)
     result = 0
     for i in range(int(n)):
-        if aux >= float(b):
-            break
         xn.append(float(aux))
         aux += deltaX
     # print('xn: ',xn)
@@ -106,8 +104,6 @@ def intregales_rectangulos_der(funcion, a, b, n):
     aux = float(a) + deltaX
     result = 0
     for i in range(int(n)):
-        if aux > float(b):
-            break
         xn.append(float(aux))
         aux += deltaX
     # print('xn: ',xn)
@@ -125,8 +121,6 @@ def intregales_rectangulos_med(funcion, a, b, n):
     aux = float(a)
     result = 0
     for i in range(int(n)+1):
-        if aux > float(b):
-            break
         xn.append(float(aux))
         aux = aux + deltaX
     #print('delta: ',deltaX)
@@ -137,7 +131,7 @@ def intregales_rectangulos_med(funcion, a, b, n):
     # print('resultado: ', '{:.5f}'.format(result))
     result *= deltaX
     # print('resultado: ','{:.5f}'.format(result))
-    return '{:.5f}'.format(result)
+    return (result)
 
 
 def integrales_trapecios(funcion, a, b, n):
@@ -165,7 +159,7 @@ def integrales_trapecios(funcion, a, b, n):
     resultado_final =result
     # # print('resultado: ','{:.5f}'.format(resultado_final))
 
-    return '{:.5f}'.format(resultado_final),error
+    return resultado_final,error
 
 def calcular_derivada(func, valor,num_int):
     funcion = sp.sympify(func)
@@ -209,41 +203,47 @@ def integralSimpson_1_3(funcion, a, b, n):
     return resultado, error
 
 
+def integral_3_8(funcion, a, b):
+    m1 = (2 * float(a) + float(b)) / 3
+    m2 = (float(a) + 2 * float(b)) / 3
+    resultado = (float(b) - float(a)) / 8 * (determinar_func(funcion, float(a)) + (3 * determinar_func(funcion, m1)) + (
+            3 * determinar_func(funcion, m2)) + determinar_func(funcion, float(b)))
+
+    return resultado
+
+
 def integralSimpson_3_8(funcion, a, b, n):
     aux = int(n)
     if (aux % 3 == 1):
         aux += 2
     elif (aux % 3 == 2):
         aux += 1
+
     valorA = float(a)
     valorB = float(b)
+    valorN = aux
     randomico = random.uniform(0, 1)
-    epsilon =  float(a)+randomico*(float(b)-float(b))
-    delta = ((valorB - valorA) / 3)
+    epsilon = valorA + randomico * (valorB - valorA)
+
+    delta = (valorB - valorA) / valorN
     resultado = 0
 
+    for i in range(valorN):
+        valorB = valorA + delta
+        area = integral_3_8(funcion, valorA, valorB)
+        resultado = resultado + area
+        valorA = valorB
 
-    x0 = valorA
-    x1 = x0 + delta
-    x2 = x1 + delta
-    x3 = x2 + delta
-
-    fx0 = determinar_func(funcion, x0)
-    fx1 = determinar_func(funcion, x1)
-    fx2 = determinar_func(funcion, x2)
-    fx3 = determinar_func(funcion, x3)
-
-    derivada4 = calcular_derivada(funcion, float(epsilon),4)
+    derivada4 = calcular_derivada(funcion, float(epsilon), 4)
 
     error = -((3 / 80) * (delta ** 5)) * derivada4
 
-    resultado = ((3 * delta) / 8) * (fx0 + (3 * fx1) + (3 * fx2) + fx3)
-
     return resultado, error
+
 
 def graficar_funcion(func, xi=-10, xf=10):
     ecu = sp.sympify(func)
-    inf = int(xi)
-    sup = int(xf)
+    inf = float(xi)
+    sup = float(xf)
     x = sp.symbols('x')
     sp.plot(ecu, (x, inf, sup))
