@@ -87,8 +87,6 @@ def intregales_rectangulos_izq(funcion, a, b, n):
     aux = float(a)
     result = 0
     for i in range(int(n)):
-        if aux >= float(b):
-            break
         xn.append(float(aux))
         aux += deltaX
     # print('xn: ',xn)
@@ -106,8 +104,6 @@ def intregales_rectangulos_der(funcion, a, b, n):
     aux = float(a) + deltaX
     result = 0
     for i in range(int(n)):
-        if aux > float(b):
-            break
         xn.append(float(aux))
         aux += deltaX
     # print('xn: ',xn)
@@ -124,9 +120,7 @@ def intregales_rectangulos_med(funcion, a, b, n):
     xn = []
     aux = float(a)
     result = 0
-    for i in range(int(n)+1):
-        if aux > float(b):
-            break
+    for i in range(int(n)):
         xn.append(float(aux))
         aux = aux + deltaX
     #print('delta: ',deltaX)
