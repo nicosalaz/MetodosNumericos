@@ -158,7 +158,7 @@ def integrales_trapecios(funcion, a, b, n):
     resultado_final =result
     # # print('resultado: ','{:.5f}'.format(resultado_final))
 
-    return '{:.5f}'.format(resultado_final),error
+    return '{:.8f}'.format(resultado_final),error
 
 def calcular_derivada(func, valor,num_int):
     funcion = sp.sympify(func)
