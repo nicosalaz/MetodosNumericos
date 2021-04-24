@@ -160,7 +160,7 @@ def metodo_newton_raphson(func,p_inical,error_tolerancia=0.0001):
         i += 1
         ite.append((i,xr,er))
 
-    return '{:.5f}'.format(xr),'{:.8f}'.format(er)
+    return '{:.8f}'.format(xr),'{:.8f}'.format(er)
 
 def metodo_secante(func,xi,xf,error_tol):
     funcion = str(func)

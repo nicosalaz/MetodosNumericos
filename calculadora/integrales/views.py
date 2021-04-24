@@ -30,13 +30,15 @@ def resultado_integrales_rectangulos(request):
     a = request.POST['ext_izq']
     b = request.POST['ext_der']
     n = request.POST['n']
-    graficar_funcion(func, a, b)
-    izq = intregales_rectangulos_izq(func, a, b, n)
-    der = intregales_rectangulos_der(func, a, b, n)
-    med = intregales_rectangulos_med(func, a, b, n)
+    a_2 = evaluar_entrada(a)
+    b_2 = evaluar_entrada(b)
+    graficar_funcion(func,a_2, b_2)
+    izq = intregales_rectangulos_izq(func, a_2, b_2, n)
+    der = intregales_rectangulos_der(func, a_2, b_2, n)
+    med = intregales_rectangulos_med(func, a_2, b_2, n)
     return render(request, 'integrales/resultado_integrales_rectangulos.html'
                   , {'izq': izq, 'der': der, 'med': med, 'func': func,
-                     'a':a,'b':b})
+                     'a':int(a_2),'b':int(b_2)})
 
 
 def resultado_integrales_trapecios(request):
@@ -44,10 +46,12 @@ def resultado_integrales_trapecios(request):
     a = request.POST['ext_izq']
     b = request.POST['ext_der']
     n = request.POST['n']
-    graficar_funcion(func, a, b)
-    calculo,error = integrales_trapecios(func, a, b, n)
+    a_2 = evaluar_entrada(a)
+    b_2 = evaluar_entrada(b)
+    graficar_funcion(func, a_2, b_2)
+    calculo,error = integrales_trapecios(func, a_2, b_2, n)
     return render(request, 'integrales/resultado_integrales_trapecios.html', {'calculo': calculo, 'func': func,
-                                                                              'a':a,'b':b,'error':error})
+                                                                            'a':int(a_2),'b':int(b_2),'error':error})
 
 
 def resultado_integrales_simpson_1_3(request):
@@ -55,10 +59,12 @@ def resultado_integrales_simpson_1_3(request):
     a = request.POST['ext_izq']
     b = request.POST['ext_der']
     n = request.POST['n']
-    graficar_funcion(func, a, b)
-    calculo, error = integralSimpson_1_3(func, a, b, n)
+    a_2 =  evaluar_entrada(a)
+    b_2 = evaluar_entrada(b)
+    graficar_funcion(func, a_2, b_2)
+    calculo, error = integralSimpson_1_3(func, a_2, b_2, n)
     return render(request, 'integrales/resultado_integrales_simpson_1_3.html',
-                  {'calculo': calculo, 'func': func, 'error': error,'a':a,'b':b})
+                  {'calculo': calculo, 'func': func, 'error': error,'a':int(a_2),'b':int(b_2)})
 
 
 def resultado_integrales_simpson_3_8(request):
@@ -66,10 +72,12 @@ def resultado_integrales_simpson_3_8(request):
     a = request.POST['ext_izq']
     b = request.POST['ext_der']
     n = request.POST['n']
-    graficar_funcion(func, a, b)
-    calculo, error = integralSimpson_3_8(func, a, b, n)
+    a_2 =  evaluar_entrada(a)
+    b_2 = evaluar_entrada(b)
+    graficar_funcion(func, a_2, b_2)
+    calculo, error = integralSimpson_3_8(func, a_2, b_2, n)
     return render(request, 'integrales/resultado_integrales_simpson_3_8.html',
-                  {'calculo': calculo, 'func': func, 'error': error,'a':a,'b':b})
+                  {'calculo': calculo, 'func': func, 'error': error,'a':int(a_2),'b':int(b_2)})
 
 
 ################################## lOGICA ##################################
@@ -141,7 +149,7 @@ def integrales_trapecios(funcion, a, b, n):
     imagen_a = determinar_func(funcion, a)
     imagen_b = determinar_func(funcion, b)
     randomico = random.uniform(0, 1)
-    epsilon = float(a) + randomico * (float(b) - float(b))
+    epsilon = float(a) + randomico * (float(b) - float(a))
     derivada = calcular_derivada(funcion,float(epsilon),2)
     error = -((deltaX**3)/12)*derivada
 
@@ -151,7 +159,7 @@ def integrales_trapecios(funcion, a, b, n):
     #print('xn: ',xn)
     for x in range(1,len(xn)):
         result += determinar_func(funcion,xn[x])*2
-    result+= (float(determinar_func(funcion,a))+float(determinar_func(funcion,b)))
+    result  += (float(determinar_func(funcion,a))+float(determinar_func(funcion,b)))
     result *= (deltaX/2)
     #     # print(determinar_func(funcion, x))
     # # print('resultado: ', '{:.5f}'.format(result))
@@ -178,7 +186,7 @@ def integralSimpson_1_3(funcion, a, b, n):
     valorN = aux
     sumatoria = 0
     randomico = random.uniform(0, 1)
-    epsilon = float(a)+randomico*(float(b)-float(b))
+    epsilon = float(a)+randomico*(float(b)-float(a))
     delta = ((valorB - valorA) / valorN)
 
     for i in range(valorN + 1):
@@ -244,3 +252,12 @@ def graficar_funcion(func, xi=-10, xf=10):
     sup = int(xf)
     x = sp.symbols('x')
     sp.plot(ecu, (x, inf, sup))
+
+def evaluar_entrada(numero):
+    valor = numero
+    if numero == 'pi':
+        valor = math.pi
+    elif numero == 'inf':
+        valor = float(math.inf)
+
+    return float(valor)
