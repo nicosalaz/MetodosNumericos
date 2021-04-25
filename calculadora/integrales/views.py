@@ -261,3 +261,5 @@ def evaluar_entrada(numero):
         valor = float(math.inf)
 
     return float(valor)
+
+#comentario

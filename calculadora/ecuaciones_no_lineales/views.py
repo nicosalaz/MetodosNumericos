@@ -143,9 +143,10 @@ def metodo_falsa_posicion(func,xi,xf,error=0.001,ite =50):
         return False, False
 
 def metodo_newton_raphson(func,p_inical,error_tolerancia=0.0001):
-    xi = p_inical
+    xi = float(p_inical)
+    print(xi)
     xr = 0
-    er = 100
+    er = 1
     i = 0
     ite = []
     while er > float(error_tolerancia) and i <= 50:
@@ -159,8 +160,9 @@ def metodo_newton_raphson(func,p_inical,error_tolerancia=0.0001):
         xi = float(xr)
         i += 1
         ite.append((i,xr,er))
+    print(ite)
 
-    return '{:.8f}'.format(xr),'{:.8f}'.format(er)
+    return '{:.8f}'.format(xr),er
 
 def metodo_secante(func,xi,xf,error_tol):
     funcion = str(func)
