@@ -1,0 +1,12 @@
+{% extends "index.html" %}
+{%block titulo%}
+<title>Resultado</title>
+{%endblock%}
+{%block cuerpo%}
+<div class="contenedor font_web" >
+<h3 class="resultado_bases"><strong>Resultado</strong></h3>
+    <p><strong>Integral:</strong> $$ &#x222b_{{a_2}}^{{b_2}} {{func}} dx$$</p>
+    <p><strong>Resultado:</strong> {{result}}</p>
+<a href="{% url 'montecarlo'%}" class="btn">volver</a>
+</div>
+{%endblock%}

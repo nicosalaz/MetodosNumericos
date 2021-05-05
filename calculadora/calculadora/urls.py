@@ -63,5 +63,6 @@ urlpatterns = [
     path('resultado_integrales_simpson_1_3/', resultado_integrales_simpson_1_3),
     path('form_integrales_simpson_3_8/', mostrar_form_integrales_simpson_3_8, name='simpson_3_8'),
     path('resultado_integrales_simpson_3_8/', resultado_integrales_simpson_3_8),
-
+    path('form_integrales_montecarlo/', mostrar_form_integrales_montecarlo, name='montecarlo'),
+    path('resultado_integrales_montecarlo/', resultado_integrales_montecarlo),
 ]

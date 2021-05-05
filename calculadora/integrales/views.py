@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import sympy as sp
+import numpy as np
 import math
 import random
 from scipy import integrate
@@ -21,6 +22,9 @@ def mostrar_form_integrales_simpson_1_3(request):
 
 def mostrar_form_integrales_simpson_3_8(request):
     return render(request, 'integrales/form_integrales_simpson_3_8.html')
+
+def mostrar_form_integrales_montecarlo(request):
+    return render(request, 'integrales/form_integrales_montecarlo.html')
 
 
 ################################## RESULTADOS ##################################
@@ -79,6 +83,17 @@ def resultado_integrales_simpson_3_8(request):
     return render(request, 'integrales/resultado_integrales_simpson_3_8.html',
                   {'calculo': calculo, 'func': func, 'error': error,'a':int(a_2),'b':int(b_2)})
 
+def resultado_integrales_montecarlo(request):
+    func = request.POST['funcion']
+    a = request.POST['ext_izq']
+    b = request.POST['ext_der']
+    n = request.POST['n']
+    a_2 =  evaluar_entrada(a)
+    b_2 = evaluar_entrada(b)
+    graficar_funcion(func, a_2, b_2)
+    result = metodo_motecarlo(func,a_2,b_2,n)
+    return render(request,'integrales/resultado_integrales_montecarlo.html',{'result':result,'func':func
+                                                                        ,'a_2':a_2,'b_2':b_2})
 
 ################################## lOGICA ##################################
 
@@ -245,6 +260,20 @@ def integralSimpson_3_8(funcion, a, b, n):
     error = -((3 / 80) * (delta ** 5)) * derivada4
 
     return resultado, error
+
+def metodo_motecarlo(funcion,a,b,n):
+    inf = float(a)
+    sup = float(b)
+    N = int(n)
+    integral = 0.0
+    xrand = np.zeros(N)
+    for i in range(len(xrand)):
+        xrand[i] = random.uniform(inf, sup)
+    for i in range(N):
+        integral += determinar_func(funcion,xrand[i])
+    answer = (sup - inf) / float(N) * integral
+    return answer
+
 
 def graficar_funcion(func, xi=-10, xf=10):
     ecu = sp.sympify(func)
