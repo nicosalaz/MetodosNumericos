@@ -5,6 +5,8 @@ import math
 import random
 from scipy import integrate
 
+################################## variables globlales ##################################
+datos=[]
 
 # Create your views here.
 ################################## HTML ##################################
@@ -59,12 +61,14 @@ def resultado_integrales_trapecios(request):
 
 
 def resultado_integrales_simpson_1_3(request):
+    global datos
     func = request.POST['funcion']
     a = request.POST['ext_izq']
     b = request.POST['ext_der']
     n = request.POST['n']
     a_2 =  evaluar_entrada(a)
     b_2 = evaluar_entrada(b)
+    guardar_valores([a_2,b_2])
     graficar_funcion(func, a_2, b_2)
     calculo, error = integralSimpson_1_3(func, a_2, b_2, n)
     return render(request, 'integrales/resultado_integrales_simpson_1_3.html',
@@ -291,4 +295,8 @@ def evaluar_entrada(numero):
 
     return float(valor)
 
-#comentario
+def guardar_valores(numeros):
+    global datos
+    for x in numeros:
+        datos.append(x)
+    print(datos)

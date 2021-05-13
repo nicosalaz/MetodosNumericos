@@ -1,0 +1,29 @@
+{% extends "index.html" %}
+{% block titulo %}
+<title>Formulario de Matrices</title>
+{% endblock %}
+{% block cuerpo %}
+<div class="contenedor font_web">
+<h3 class="resultado_bases">Formulario de Matrices</h3>
+<form action="/formulario_completo_matrices/" method="POST">
+    {% csrf_token %}
+    <table>
+        <tbody>
+            <tr>
+                <td><strong>Número de matrices =</strong></td>
+                <td>
+                    <input type="text" name="n_matrices" placeholder="Número de matrices" required>
+                </td>
+            </tr>
+            <tr>
+                <td><input class="btn" type="submit" value="Calcular"></td>
+                <td><input class="btn" type="reset"></td>
+            </tr>
+        </tbody>
+    </table>
+
+
+
+</form>
+    </div>
+{% endblock %}

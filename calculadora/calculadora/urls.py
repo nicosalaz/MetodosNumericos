@@ -18,6 +18,8 @@ from django.urls import path
 from calculadora_binaria.views import *
 from ecuaciones_no_lineales.views import *
 from integrales.views import *
+from matrices.views import *
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -65,4 +67,7 @@ urlpatterns = [
     path('resultado_integrales_simpson_3_8/', resultado_integrales_simpson_3_8),
     path('form_integrales_montecarlo/', mostrar_form_integrales_montecarlo, name='montecarlo'),
     path('resultado_integrales_montecarlo/', resultado_integrales_montecarlo),
+    path('formulario_inicial/',mostrar_formulario_inicial,name='mat_ini'),
+    path('formulario_completo_matrices/',formulario_completo_matrices),
+    path('resolver/',resolver)
 ]
