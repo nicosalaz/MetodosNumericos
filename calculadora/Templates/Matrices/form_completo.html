@@ -13,13 +13,15 @@
             <tr>
                 <td><strong>Digita la matriz # {{x}} =</strong></td>
                 <td>
-                    <input type="text" name="mat{{x}}" placeholder="Número de matrices" >
+                    <input type="text" name="mat{{x}}" id="mat" placeholder="matriz #{{x}}" >
+                    <strong>Nombre de la matriz #{{x}}</strong><input type="text" name="nom_mat{{x}}" placeholder="nombre de la matriz #{{x}}" >
                 </td>
             </tr>
         {% endfor %}
             <tr>
                 <td><input class="btn" name="calcular" type="submit" value="Calcular"></td>
                 <td><input class="btn" type="reset"></td>
+                <td><input class="btn" name="calcular" type="submit" value="Borrar"></td>
             </tr>
         </tbody>
     </table>
