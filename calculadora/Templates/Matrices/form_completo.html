@@ -9,23 +9,47 @@
     {% csrf_token %}
     <table>
         <tbody>
-        {% for x in arr%}
             <tr>
-                <td><strong>Digita la matriz # {{x}} =</strong></td>
+                <td><strong>Digita la matriz: </strong></td>
                 <td>
-                    <input type="text" name="mat{{x}}" id="mat" placeholder="matriz #{{x}}" >
-                    <strong>Nombre de la matriz #{{x}}</strong><input type="text" name="nom_mat{{x}}" placeholder="nombre de la matriz #{{x}}" >
+                    <input type="text" name="matriz" id="matriz" placeholder="matriz" >
+                    <input type="text" name="nombre" placeholder="Nombre de la matriz" >
                 </td>
             </tr>
-        {% endfor %}
             <tr>
-                <td><input class="btn" name="calcular" type="submit" value="Calcular"></td>
+                <td><input class="btn" name="calcular" type="submit" value="Guardar Matrices"></td>
                 <td><input class="btn" type="reset"></td>
                 <td><input class="btn" name="calcular" type="submit" value="Borrar"></td>
             </tr>
+            <tfooter>
+                <tr>
+                    <th><input type="text" name="escalar" placeholder="Digite la operacion"></th>
+                    <td>
+                        <input class="btn" type="submit" name="calcular" value="escalar">
+                    </td>
+                </tr>
+                <tr>
+                    <th><input type="text" name="multi"></th>
+                    <td><input class="btn" name="calcular" type="submit" value="A*B"></td>
+
+                    <th><input type="text" name="suma"></th>
+                    <td><input class="btn" name="calcular" type="submit" value="A+B"></td>
+
+                    <th><input type="text" name="resta"></th>
+                    <td><input class="btn" name="calcular" type="submit" value="A-B"></td>
+                </tr>
+            </tfooter>
         </tbody>
     </table>
+    <div>
 
+        <h2><strong>Matrices:</strong></h2>
+        {% for dt in datos %}
+            <p>{{dt.0}} = {{dt.1}}</p>
+        {% endfor %}
+        <h2><strong>Resultado:</strong></h2>
+            {{result}}
+    </div>
 
 
 </form>

@@ -68,6 +68,6 @@ urlpatterns = [
     path('form_integrales_montecarlo/', mostrar_form_integrales_montecarlo, name='montecarlo'),
     path('resultado_integrales_montecarlo/', resultado_integrales_montecarlo),
     path('formulario_inicial/',mostrar_formulario_inicial,name='mat_ini'),
-    path('formulario_completo_matrices/',formulario_completo_matrices),
-    path('resolver/',resolver)
+    path('formulario_completo_matrices/',formulario_completo_matrices,name='mat'),
+    path('resolver/',resolver),
 ]
