@@ -67,7 +67,8 @@ urlpatterns = [
     path('resultado_integrales_simpson_3_8/', resultado_integrales_simpson_3_8),
     path('form_integrales_montecarlo/', mostrar_form_integrales_montecarlo, name='montecarlo'),
     path('resultado_integrales_montecarlo/', resultado_integrales_montecarlo),
-    path('formulario_inicial/',mostrar_formulario_inicial,name='mat_ini'),
+    path('formulario_ecu_lineal/',mostrar_formulario_ecu_lineal,name='ecu_lin'),
     path('formulario_completo_matrices/',formulario_completo_matrices,name='mat'),
     path('resolver/',resolver),
+    path('resolver_ecu_lineales/',resolver_ecu_lineales),
 ]

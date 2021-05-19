@@ -5,22 +5,24 @@
 {% block cuerpo %}
 <div class="contenedor font_web">
 <h3 class="resultado_bases">Formulario de Matrices</h3>
-<form action="/formulario_completo_matrices/" method="POST">
+<form action="/resolver_ecu_lineales/" method="POST">
     {% csrf_token %}
     <table>
         <tbody>
             <tr>
                 <td><strong>Número de matrices =</strong></td>
                 <td>
-                    <input type="text" name="n_matrices" placeholder="Número de matrices" required>
+                    <input type="text" name="mat_lin" placeholder="1,2,=3" required>
                 </td>
             </tr>
             <tr>
-                <td><input class="btn" type="submit" value="Enviar"></td>
+                <td><input class="btn" type="submit" value="Resolver"></td>
                 <td><input class="btn" type="reset"></td>
             </tr>
         </tbody>
     </table>
+    <h2><strong>Resultado:</strong></h2>
+    <p>{{x}}</p>
 
 
 
