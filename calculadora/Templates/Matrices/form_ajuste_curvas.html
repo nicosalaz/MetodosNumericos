@@ -1,0 +1,62 @@
+{% extends "index.html" %}
+{% block titulo %}
+<title>Formulario de ajuste de curvas por mínimos cuadrados</title>
+{% endblock %}
+{% block cuerpo %}
+<div class="contenedor font_web">
+<h3 class="resultado_bases">Formulario de ajuste de curvas</h3>
+<form action="/resolver_ajuste_curvas/" method="POST">
+    {% csrf_token %}
+    <table>
+        <tbody>
+            <tr>
+                <td><strong>n: </strong></td>
+                <td>
+                    <input type="text" name="n">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>valores de X: </strong>
+                </td>
+                <td>
+                    <input type="text" name="x" placeholder="1,2,3">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <strong>valores de Y: </strong>
+                </td>
+                <td>
+                    <input type="text" name="y" placeholder="1,2,3">
+                </td>
+            </tr>
+
+            <tr>
+                <td><input class="btn" name="calcular" type="submit" value="calcular"></td>
+                <td><input class="btn" type="reset"></td>
+                <td><input class="btn" name="calcular" type="submit" value="Borrar"></td>
+            </tr>
+
+        </tbody>
+    </table>
+    <div>
+        <table>
+            {% if result %}
+                {% for r in result %}
+                    <tr>
+                        <td><p>Grado {{r.0}} = {{r.1}}</p></td>
+                        <td><p>Coeficiente = {{r.2}}</p></td>
+                    </tr>
+                {% endfor %}
+        </table>
+            {% else %}
+                <p>Alguna de las matrices tiene como deteminante el valor 0, revisa los valores de x e y</p>
+            {% endif %}
+
+    </div>
+
+
+</form>
+    </div>
+{% endblock %}

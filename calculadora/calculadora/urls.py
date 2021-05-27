@@ -71,4 +71,6 @@ urlpatterns = [
     path('formulario_completo_matrices/',formulario_completo_matrices,name='mat'),
     path('resolver/',resolver),
     path('resolver_ecu_lineales/',resolver_ecu_lineales),
+    path('form_ajuste_de_curvas/',mostrar_form_ajuste_de_curvas,name='ajuste_curvas'),
+    path('resolver_ajuste_curvas/',resolver_ajuste_curvas)
 ]
