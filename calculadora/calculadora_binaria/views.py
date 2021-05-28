@@ -5,7 +5,8 @@ from django.shortcuts import render
 import math
 import struct
 
-
+def nosotros(request):
+    return render(request, 'Base_10/nosotros.html')
 
 def mostrar_calculadora_decimal(request):
     return render(request,'Base_10/base_diez.html')

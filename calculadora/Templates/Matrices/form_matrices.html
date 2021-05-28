@@ -10,9 +10,10 @@
     <table>
         <tbody>
             <tr>
-                <td><strong>Número de matrices =</strong></td>
+                <td><strong>Matriz =</strong></td>
+                <td><textarea name="textarea" rows="5" cols="10" placeholder="" required></textarea></td>
                 <td>
-                    <input type="text" name="mat_lin" placeholder="1,2,=3" required>
+                    <strong>vector solución = </strong><input type="text" name="vec" placeholder="1,2,3" required>
                 </td>
             </tr>
             <tr>
@@ -22,10 +23,16 @@
         </tbody>
     </table>
     <h2><strong>Resultado:</strong></h2>
-    <p>{{x}}</p>
+    {% if x %}
+        {% for i in x %}
+            <p>{{i}}</p>
+        {% endfor %}
+    {% endif %}
 
 
 
 </form>
+        <iframe src="https://drive.google.com/file/d/119ta2N2mzqwm94UhyKZNWl7_7Qpha4ta/preview" width="640" height="480"></iframe>
+
     </div>
 {% endblock %}

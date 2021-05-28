@@ -1,3 +1,5 @@
+import re
+
 from django.shortcuts import render, redirect
 import numpy as np
 from scipy import linalg
@@ -85,12 +87,14 @@ def guardar_valores_area(m, name):
     col, fil = saberDeCuantoPorCuantoEs(mat)
     mat_final = rellenarLosEspacios(mat)
     datos.append([name, np.array(mat_final), fil, col])
-    print(datos)
 
 
 def resolver_ecu_lineales(request):
-    entrada = request.POST['mat_lin']
-    mat, b = armar_sistema(entrada)
+    entrada_mat = request.POST['textarea']
+    entrada_vec = request.POST['vec']
+    m = creadorDeMatrices_area(entrada_mat)
+    mat = rellenarLosEspacios(m)
+    b = ordenar_arreglo(entrada_vec)
     x = solucionar_ecuacion_lineal(mat, b)
     return render(request, 'Matrices/form_matrices.html', {'x': x})
 
@@ -138,16 +142,12 @@ def creadorDeMatrices_area(valores):
     auxDos = ""
     matriz = []
     for i in range(len(valores)):
-        print(valores[i])
         if valores[i] != "," and valores[i] != "\n" and valores[i] != " ":
-            print('entro 1')
             auxDos += valores[i]
         if valores[i] == "," or i == len(valores) - 1 or valores[i+2] == "\n":
-            print('entro 2')
             aux.append(float(auxDos))
             auxDos = ""
         if valores[i] == "\n" or i == len(valores) - 1:
-            print('entro 3')
             matriz.append(aux.copy())
             auxDos = ""
             aux.clear()
@@ -350,7 +350,15 @@ def solucionar_ecuacion_lineal(mat, b):
     a = np.array(mat)
     v_sol = np.array(b)
     x = np.linalg.solve(a, v_sol)
-    return x
+    final = retornar_impresion_ecu_lineal(x)
+    return final
+
+def retornar_impresion_ecu_lineal(arreglo):
+    msj = []
+    for x in range(len(arreglo)):
+        msj.append('x'+str(x+1)+' = '+str(arreglo[x]))
+    return msj
+
 
 def get_col(valor):
     global datos

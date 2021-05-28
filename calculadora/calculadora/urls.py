@@ -72,5 +72,7 @@ urlpatterns = [
     path('resolver/',resolver),
     path('resolver_ecu_lineales/',resolver_ecu_lineales),
     path('form_ajuste_de_curvas/',mostrar_form_ajuste_de_curvas,name='ajuste_curvas'),
-    path('resolver_ajuste_curvas/',resolver_ajuste_curvas)
+    path('resolver_ajuste_curvas/',resolver_ajuste_curvas),
+    #Nosotros
+    path('nosotros/', nosotros, name='nosotros'),
 ]
