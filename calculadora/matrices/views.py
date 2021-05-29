@@ -92,8 +92,10 @@ def guardar_valores_area(m, name):
 def resolver_ecu_lineales(request):
     entrada_mat = request.POST['textarea']
     entrada_vec = request.POST['vec']
-    m = creadorDeMatrices_area(entrada_mat)
-    mat = rellenarLosEspacios(m)
+    m = ordenar_2(entrada_mat)
+    a = to_matriz(m)
+    t = to_float(a)
+    mat = rellenarLosEspacios(t)
     b = ordenar_arreglo(entrada_vec)
     x = solucionar_ecuacion_lineal(mat, b)
     return render(request, 'Matrices/form_matrices.html', {'x': x})
@@ -129,6 +131,31 @@ def resolver_ajuste_curvas(request):
 #             aux.clear()
 #
 #     return matriz
+
+def ordenar_2(msj):
+    lista = msj.split(sep='\r\n')
+    lista_final = []
+    for x in lista:
+        lista_final.append(x)
+    return lista_final
+
+def to_matriz(msj):
+    mat = []
+    for x in msj:
+        fila = x.split(sep=' ')
+        mat.append(fila)
+    return mat
+
+def to_float(msj):
+    mat = []
+    aux = []
+    for x in msj:
+        for y in x:
+            aux.append(float(y))
+        mat.append(aux.copy())
+        aux.clear()
+    return mat
+
 
 def ordenar_arreglo(msj):
     lista = msj.split(sep=',')
