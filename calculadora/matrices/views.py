@@ -108,8 +108,10 @@ def resolver_ajuste_curvas(request):
     elif boton == 'calcular':
         x =  request.POST['x']
         solx = ordenar_arreglo(x)
+        print(solx)
         y = request.POST['y']
         soly = ordenar_arreglo(y)
+        print(soly)
         n = len(solx)
         resultado_a_c = solucionar_ajuste_curvas(solx,soly,n)
     return redirect('ajuste_curvas')
@@ -515,12 +517,12 @@ def retornar_func(num):
     msj = ''
     for n in range(len(num)):
         if n == 0:
-            msj += str('{:.3f}'.format(num[n]))+' '
+            msj += str('{:.9f}'.format(num[n]))+' '
         else:
             if num[n] < 0:
-                msj += str('{:.3f}'.format(num[n]))+'*x^'+str(n)+' '
+                msj += str('{:.9f}'.format(num[n]))+'*x^'+str(n)+' '
             else:
-                msj += ' + '+str('{:.3f}'.format(num[n]))+'*x^'+str(n)+' '
+                msj += ' + '+str('{:.9f}'.format(num[n]))+'*x^'+str(n)+' '
     return msj
 
 def resolver_lineal(mat,vec):
@@ -570,13 +572,14 @@ def solucionar_ajuste_curvas(x,y,n):
         exponente = 0
 
     final = resolver_ecuaciones_lineales(vector, resultados)
-
+    print(final)
     if final != False:
         st = hallar_st(y)
         for t in range(len(final)):
             sr = hallar_sr(final[t][1],x,y)
             coeficiente = pow(((st - sr) / st), 0.5)
-            final[t].append('{:.8f}'.format(coeficiente))
+            print(coeficiente)
+            final[t].append(coeficiente)
 
         return final
     else:
