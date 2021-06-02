@@ -12,10 +12,10 @@
             <tr>
                 <td><strong>Digita la matriz: </strong></td>
                 <td>
-                    <textarea name="textarea" rows="5" cols="10" required></textarea>
+                    <textarea name="textarea" rows="5" cols="10" ></textarea>
                 </td>
                 <td>
-                    <strong>Nombre de la matriz: </strong><input type="text" name="nombre" placeholder="Nombre de la matriz" required>
+                    <strong>Nombre de la matriz: </strong><input type="text" name="nombre" placeholder="Nombre de la matriz" >
                 </td>
             </tr>
             <tr>
@@ -36,10 +36,10 @@
     <div>
 
         <h2><strong>Matrices:</strong></h2>
-        {% for dt in datos %}
-            <p>{{dt.0}}:</p>
-            {% for d in dt.1 %}
-                <p>{{d}}</p>
+        {% for key,value in datos.items %}
+            <p>{{key}}:</p>
+            {% for v in value %}
+                <p>{{v}}</p>
             {% endfor %}
         {% endfor %}
         <h2><strong>Resultado:</strong></h2>

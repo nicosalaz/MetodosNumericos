@@ -8,7 +8,7 @@ import sympy as sp
 
 #################################### VARIABLES GLOBALES ####################################
 
-datos = []
+datos = dict()
 result = []
 resulado = []
 resultado_a_c=[]
@@ -34,8 +34,8 @@ def formulario_completo_matrices(request):
 
 
 def resolver(request):
-    global result
     global resulado
+    global datos
     boton = request.POST['calcular']
     operacion = request.POST['operacion']
     if boton == 'Guardar Matrices':
@@ -43,28 +43,34 @@ def resolver(request):
     elif boton == 'Borrar':
         limpiar_diccionario()
     elif boton == 'calculo':
-        if '+' in operacion:
-            #result.append([operacion,sumar(operacion)])
-            resulado.append([operacion,sumar(operacion)])
-        elif '-' in operacion:
-            result = restar(operacion)
-            resulado.append([operacion,restar(operacion)])
-        elif '*' in operacion:
-            if buscar_numero(operacion):
-                result = multi_por_escalar(operacion)
-                resulado.append([operacion,multi_por_escalar(operacion)])
-            else:
-                result = multipliacion_matrices(operacion)
-                resulado.append([operacion,multipliacion_matrices(operacion)])
-        elif 'det' in operacion:
-            result = determinante(operacion)
-            resulado.append([operacion,determinante(operacion)])
-        elif 'inv' in operacion:
-            result = matriz_inversa(operacion)
-            resulado.append([operacion,matriz_inversa(operacion)])
-        elif 'transpuesta' in operacion:
-            result = matriz_transpuesta(operacion)
-            resulado.append([operacion,matriz_transpuesta(operacion)])
+        try:
+            result = ecuacionesMatrices(operacion,datos)
+            resulado.append([operacion,result])
+        except:
+            result = 'Algo salio mal'
+            resulado.append([operacion,result])
+        # if '+' in operacion:
+        #     #result.append([operacion,sumar(operacion)])
+        #     resulado.append([operacion,sumar(operacion)])
+        # elif '-' in operacion:
+        #     result = restar(operacion)
+        #     resulado.append([operacion,restar(operacion)])
+        # elif '*' in operacion:
+        #     if buscar_numero(operacion):
+        #         result = multi_por_escalar(operacion)
+        #         resulado.append([operacion,multi_por_escalar(operacion)])
+        #     else:
+        #         result = multipliacion_matrices(operacion)
+        #         resulado.append([operacion,multipliacion_matrices(operacion)])
+        # elif 'det' in operacion:
+        #     result = determinante(operacion)
+        #     resulado.append([operacion,determinante(operacion)])
+        # elif 'inv' in operacion:
+        #     result = matriz_inversa(operacion)
+        #     resulado.append([operacion,matriz_inversa(operacion)])
+        # elif 'transpuesta' in operacion:
+        #     result = matriz_transpuesta(operacion)
+        #     resulado.append([operacion,matriz_transpuesta(operacion)])
     resulado.reverse()
     return redirect('mat')
 
@@ -86,7 +92,7 @@ def guardar_valores_area(m, name):
     mat = creadorDeMatrices_area(m)
     col, fil = saberDeCuantoPorCuantoEs(mat)
     mat_final = rellenarLosEspacios(mat)
-    datos.append([name, np.array(mat_final), fil, col])
+    datos[name] =np.array(mat_final)
 
 
 def resolver_ecu_lineales(request):
@@ -223,87 +229,532 @@ def guardar_matriz_text_area(request):
     guardar_valores_area(matriz, name)
 
 
-def sumar(valor):
-    aux=[]
-    dimension = 0
-    suma = 0
-    for x in valor:
-        if x != '+':
-            aux.append(x)
-    dimension = get_pos_array(aux[0])
-    for i in aux:
-        if existe_matriz(i):
-            if get_pos_array(i)[2] == dimension[2] and get_pos_array(i)[3] == dimension[3]:
-                suma = suma + determinar_matriz(i)
-            else:
-                suma = 'las matrices deben tener las mismas dimensiones'
-        else:
-            suma = 'no existe la matriz '+i
-            return suma
-    return suma
+# def sumar(valor):
+#     aux=[]
+#     dimension = 0
+#     suma = 0
+#     for x in valor:
+#         if x != '+':
+#             aux.append(x)
+#     dimension = get_pos_array(aux[0])
+#     for i in aux:
+#         if existe_matriz(i):
+#             if get_pos_array(i)[2] == dimension[2] and get_pos_array(i)[3] == dimension[3]:
+#                 suma = suma + determinar_matriz(i)
+#             else:
+#                 suma = 'las matrices deben tener las mismas dimensiones'
+#         else:
+#             suma = 'no existe la matriz '+i
+#             return suma
+#     return suma
+#
+# def restar(valor):
+#     aux=[]
+#     dimension = 0
+#     resta = 0
+#     for x in valor:
+#         if x != '-':
+#             aux.append(x)
+#     dimension = get_pos_array(aux[0])
+#     for i in aux:
+#         if existe_matriz(i):
+#             if get_pos_array(i)[2] == dimension[2] and get_pos_array(i)[3] == dimension[3]:
+#                 if i == aux[0]:
+#                     resta = determinar_matriz(i)
+#                 else:
+#                     resta = resta - determinar_matriz(i)
+#             else:
+#                 resta = 'las matrices deben tener las mismas dimensiones'
+#         else:
+#             resta = 'no existe la matriz '+i
+#             return  resta
+#     return resta
 
-def restar(valor):
-    aux=[]
-    dimension = 0
-    resta = 0
-    for x in valor:
-        if x != '-':
-            aux.append(x)
-    dimension = get_pos_array(aux[0])
-    for i in aux:
-        if existe_matriz(i):
-            if get_pos_array(i)[2] == dimension[2] and get_pos_array(i)[3] == dimension[3]:
-                if i == aux[0]:
-                    resta = determinar_matriz(i)
+# def multi_por_escalar(escalar):
+#     mat = ""
+#     num = ""
+#     res = ""
+#     global datos
+#     for x in range(len(escalar)):
+#         if escalar[x].isnumeric():
+#             num = escalar[x]
+#         elif escalar[x] != '*':
+#             mat = escalar[x]
+#         else:
+#             pass
+#     for i in datos:
+#         if i[0] == mat:
+#             res = i[1] * float(num)
+#             return res
+#         else:
+#             res ='no se encontró ninguna matriz con ese identificador'
+#
+#     return res
+
+
+# def determinante(valor):
+#     est = False
+#     conta = 0
+#     res = 0
+#     while conta < (len(valor) - 1) and est == False:
+#         if valor[conta + 1] == ')':
+#             if existe_matriz(valor[conta]):
+#                 if es_cuadrada(valor[conta]) == True:
+#                     res = np.linalg.det(determinar_matriz(valor[conta]))
+#                     est = True
+#                 else:
+#                     res = 'la matriz no es cuadrada'
+#             else:
+#                 res = 'la matriz no existe'
+#                 return res
+#         conta += 1
+#     return res
+
+def matrizElevada(elevado, matriz):
+    aux = matriz
+    for i in range(elevado - 1):
+        aux = np.dot(aux, matriz)
+    return aux
+
+def operar(ecuacion, diccionario):
+    num = 0
+    for i in diccionario.keys():
+        num +=ecuacion.count(i)
+    if "*" in ecuacion and "^" in ecuacion:
+        i = ecuacion.index("^")
+        iDos = ecuacion.index("*")
+        if "(" in ecuacion:
+            if i < iDos :
+                matrizElevar = ecuacion[1:i]
+                elevado = ecuacion[i+1:iDos]
+                if matrizElevar in diccionario.keys():
+                    if elevado.isdigit() and elevado != "-1" and elevado != "D" and elevado!='d':
+                        solucionUno = matrizElevada(int(elevado),diccionario[matrizElevar])
+                    if elevado == "T" :
+                        solucionUno =  diccionario[matrizElevar].T
+                    if elevado == "-1":
+                        solucionUno = np.linalg.inv(diccionario[matrizElevar])
+                    if elevado == "D" or elevado == 'd' :
+                        solucionUno = np.linalg.det(diccionario[matrizElevar])
+                solucionUno = np.array(solucionUno)
+                multiplicado = ecuacion[iDos+1:len(ecuacion)-1]
+                if multiplicado in diccionario.keys():
+                    solucion = np.dot(solucionUno, diccionario[multiplicado])
                 else:
-                    resta = resta - determinar_matriz(i)
-            else:
-                resta = 'las matrices deben tener las mismas dimensiones'
-        else:
-            resta = 'no existe la matriz '+i
-            return  resta
-    return resta
-
-def multi_por_escalar(escalar):
-    mat = ""
-    num = ""
-    res = ""
-    global datos
-    for x in range(len(escalar)):
-        if escalar[x].isnumeric():
-            num = escalar[x]
-        elif escalar[x] != '*':
-            mat = escalar[x]
-        else:
-            pass
-    for i in datos:
-        if i[0] == mat:
-            res = i[1] * float(num)
-            return res
-        else:
-            res ='no se encontró ninguna matriz con ese identificador'
-
-    return res
-
-
-def determinante(valor):
-    est = False
-    conta = 0
-    res = 0
-    while conta < (len(valor) - 1) and est == False:
-        if valor[conta + 1] == ')':
-            if existe_matriz(valor[conta]):
-                if es_cuadrada(valor[conta]) == True:
-                    res = np.linalg.det(determinar_matriz(valor[conta]))
-                    est = True
+                    solucion = solucionUno * float(multiplicado)
+            if iDos < i :
+                matrizElevar = ecuacion [iDos+1:i]
+                elevado = ecuacion [i+1:len(ecuacion)-1]
+                if matrizElevar in diccionario.keys():
+                    if elevado.isdigit() and elevado != "-1" and elevado != "D" and elevado!='d':
+                        solucionUno = matrizElevada(int(elevado),diccionario[matrizElevar])
+                    if elevado == "T" :
+                        solucionUno =  diccionario[matrizElevar].T
+                    if elevado == "-1":
+                        solucionUno = np.linalg.inv(diccionario[matrizElevar])
+                    if elevado == "D" or elevado == 'd' :
+                        solucionUno = np.linalg.det(diccionario[matrizElevar])
+                solucionUno = np.array(solucionUno)
+                multiplicado = ecuacion[1:iDos]
+                if multiplicado in diccionario.keys():
+                    solucion = np.dot(solucionUno, diccionario[multiplicado])
                 else:
-                    res = 'la matriz no es cuadrada'
-            else:
-                res = 'la matriz no existe'
-                return res
-        conta += 1
-    return res
+                    solucion = solucionUno * float(multiplicado)
+        else:
+            if i < iDos :
+                matrizElevar = ecuacion[0:i]
+                elevado = ecuacion[i+1:iDos]
+                if matrizElevar in diccionario.keys():
+                    if elevado.isdigit() and elevado != "-1" and elevado != "D" and elevado!='d':
+                        solucionUno = matrizElevada(int(elevado),diccionario[matrizElevar])
+                    if elevado == "T" :
+                        solucionUno =  diccionario[matrizElevar].T
+                    if elevado == "-1":
+                        solucionUno = np.linalg.inv(diccionario[matrizElevar])
+                    if elevado == "D" or elevado == 'd' :
+                        solucionUno = np.linalg.det(diccionario[matrizElevar])
+                solucionUno = np.array(solucionUno)
+                multiplicado = ecuacion[iDos+1:len(ecuacion)]
+                if multiplicado in diccionario.keys():
+                    solucion = np.dot(solucionUno, diccionario[multiplicado])
+                else:
+                    solucion = solucionUno * float(multiplicado)
+            if iDos < i :
+                matrizElevar = ecuacion [iDos+1:i]
+                elevado = ecuacion [i+1:len(ecuacion)]
+                if matrizElevar in diccionario.keys():
+                    if elevado.isdigit() and elevado != "-1" and elevado != "D" and elevado!='d':
+                        solucionUno = matrizElevada(int(elevado),diccionario[matrizElevar])
+                    if elevado == "T" :
+                        solucionUno =  diccionario[matrizElevar].T
+                    if elevado == "-1":
+                        solucionUno = np.linalg.inv(diccionario[matrizElevar])
+                    if elevado == "D" or elevado == 'd' :
+                        solucionUno = np.linalg.det(diccionario[matrizElevar])
+                solucionUno = np.array(solucionUno)
+                multiplicado = ecuacion[0:iDos]
 
+                if multiplicado in diccionario.keys():
+                    solucion = np.dot(solucionUno, diccionario[multiplicado])
+                else:
+                    solucion = solucionUno * float(multiplicado)
+
+
+
+    if ("+" in ecuacion or "-" in ecuacion) and "^" in ecuacion and num >= 2:
+        if "(" in ecuacion and "-" in ecuacion:
+            i = ecuacion.index("^")
+            iDos = ecuacion.index("-")
+            if i < iDos:
+                matrizElevar = ecuacion[1:i]
+                elevado = ecuacion[i + 1: iDos]
+                if matrizElevar in diccionario.keys():
+                    if elevado.isdigit() and elevado != "-1" and elevado != "D" and elevado!='d':
+                        solucionUno = matrizElevada(int(elevado), diccionario[matrizElevar])
+                    if elevado == "T":
+                        solucionUno = diccionario[matrizElevar].T
+                    if elevado == "-1":
+                        solucionUno = np.linalg.inv(diccionario[matrizElevar])
+                    if elevado == "D" or elevado == 'd':
+                        solucionUno = np.linalg.det(diccionario[matrizElevar])
+                restar = ecuacion[iDos + 1:len(ecuacion) - 1]
+                solucionUno = np.array(solucionUno)
+                solucion = solucionUno - diccionario[restar]
+            if i > iDos:
+                matrizElevar = ecuacion[iDos + 1:i]
+                elevado = ecuacion[i + 1:len(ecuacion) - 1]
+                if matrizElevar in diccionario.keys():
+                    if elevado.isdigit() and elevado != "-1" and elevado != "D" and elevado!='d':
+                        solucionUno = matrizElevada(int(elevado), diccionario[matrizElevar])
+                    if elevado == "T":
+                        solucionUno = diccionario[matrizElevar].T
+                    if elevado == "-1":
+                        solucionUno = np.linalg.inv(diccionario[matrizElevar])
+                    if elevado == "D" or elevado == 'd':
+                        solucionUno = np.linalg.det(diccionario[matrizElevar])
+                restar = ecuacion[1:iDos]
+                solucionUno = np.array(solucionUno)
+                solucion = solucionUno - diccionario[restar]
+
+        if "(" not in ecuacion and "-" in ecuacion:
+            i = ecuacion.index("^")
+            iDos = ecuacion.index("-")
+            if i < iDos:
+                matrizElevar = ecuacion[0:i]
+                elevado = ecuacion[i + 1: iDos]
+                if matrizElevar in diccionario.keys():
+                    if elevado.isdigit() and elevado != "-1" and elevado != "D" and elevado!='d':
+                        solucionUno = matrizElevada(int(elevado), diccionario[matrizElevar])
+                    if elevado == "T":
+                        solucionUno = diccionario[matrizElevar].T
+                    if elevado == "-1":
+                        solucionUno = np.linalg.inv(diccionario[matrizElevar])
+                    if elevado == "D" or elevado == 'd':
+                        solucionUno = np.linalg.det(diccionario[matrizElevar])
+                restar = ecuacion[iDos + 1:len(ecuacion)]
+                solucionUno = np.array(solucionUno)
+                solucion = solucionUno - diccionario[restar]
+            if i > iDos:
+                matrizElevar = ecuacion[iDos + 1:i]
+                elevado = ecuacion[i + 1:len(ecuacion)]
+                if matrizElevar in diccionario.keys():
+                    if elevado.isdigit() and elevado != "-1" and elevado != "D" and elevado!='d':
+                        solucionUno = matrizElevada(int(elevado), diccionario[matrizElevar])
+                    if elevado == "T":
+                        solucionUno = diccionario[matrizElevar].T
+                    if elevado == "-1":
+                        solucionUno = np.linalg.inv(diccionario[matrizElevar])
+                    if elevado == "D" or elevado == 'd':
+                        solucionUno = np.linalg.det(diccionario[matrizElevar])
+                restar = ecuacion[0:iDos]
+                solucionUno = np.array(solucionUno)
+                solucion = solucionUno - diccionario[restar]
+
+        if "(" in ecuacion and "+" in ecuacion:
+            i = ecuacion.index("^")
+            iDos = ecuacion.index("+")
+            if i < iDos:
+                matrizElevar = ecuacion[1:i]
+                elevado = ecuacion[i + 1: iDos]
+                if matrizElevar in diccionario.keys():
+                    if elevado.isdigit() and elevado != "-1" and elevado != "D" and elevado!='d':
+                        solucionUno = matrizElevada(int(elevado), diccionario[matrizElevar])
+                    if elevado == "T":
+                        solucionUno = diccionario[matrizElevar].T
+                    if elevado == "-1":
+                        solucionUno = np.linalg.inv(diccionario[matrizElevar])
+                    if elevado == "D" or elevado == 'd':
+                        solucionUno = np.linalg.det(diccionario[matrizElevar])
+                restar = ecuacion[iDos + 1:len(ecuacion) - 1]
+                solucionUno = np.array(solucionUno)
+                solucion = solucionUno + diccionario[restar]
+            if i > iDos:
+                matrizElevar = ecuacion[iDos + 1:i]
+                elevado = ecuacion[i + 1:len(ecuacion) - 1]
+                if matrizElevar in diccionario.keys():
+                    if elevado.isdigit() and elevado != "-1" and elevado != "D" and elevado!='d':
+                        solucionUno = matrizElevada(int(elevado), diccionario[matrizElevar])
+                    if elevado == "T":
+                        solucionUno = diccionario[matrizElevar].T
+                    if elevado == "-1":
+                        solucionUno = np.linalg.inv(diccionario[matrizElevar])
+                    if elevado == "D" or elevado == 'd':
+                        solucionUno = np.linalg.det(diccionario[matrizElevar])
+                restar = ecuacion[1:iDos]
+                solucionUno = np.array(solucionUno)
+                solucion = solucionUno + diccionario[restar]
+
+        if "(" not in ecuacion and "+" in ecuacion:
+            i = ecuacion.index("^")
+            iDos = ecuacion.index("+")
+            if i < iDos:
+                matrizElevar = ecuacion[0:i]
+                elevado = ecuacion[i + 1: iDos]
+                if matrizElevar in diccionario.keys():
+                    if elevado.isdigit() and elevado != "-1" and elevado != "D" and elevado!='d':
+                        solucionUno = matrizElevada(int(elevado), diccionario[matrizElevar])
+                    if elevado == "T":
+                        solucionUno = diccionario[matrizElevar].T
+                    if elevado == "-1":
+                        solucionUno = np.linalg.inv(diccionario[matrizElevar])
+                    if elevado == "D" or elevado == 'd':
+                        solucionUno = np.linalg.det(diccionario[matrizElevar])
+                restar = ecuacion[iDos + 1:len(ecuacion)]
+                solucionUno = np.array(solucionUno)
+                solucion = solucionUno + diccionario[restar]
+            if i > iDos:
+                matrizElevar = ecuacion[iDos + 1:i]
+                elevado = ecuacion[i + 1:len(ecuacion)]
+                if matrizElevar in diccionario.keys():
+                    if elevado.isdigit() and elevado != "-1" and elevado != "D" and elevado!='d':
+                        solucionUno = matrizElevada(int(elevado), diccionario[matrizElevar])
+                    if elevado == "T":
+                        solucionUno = diccionario[matrizElevar].T
+                    if elevado == "-1":
+                        solucionUno = np.linalg.inv(diccionario[matrizElevar])
+                    if elevado == "D" or elevado == 'd':
+                        solucionUno = np.linalg.det(diccionario[matrizElevar])
+                restar = ecuacion[0:iDos]
+                solucionUno = np.array(solucionUno)
+                solucion = solucionUno + diccionario[restar]
+
+    if "+" in ecuacion and "-" not in ecuacion and "*" not in ecuacion and "^" not in ecuacion and "/" not in ecuacion:
+        i = ecuacion.index("+")
+        if "(" in ecuacion:
+            if ecuacion[1:i] in diccionario.keys() and ecuacion[i + 1:len(ecuacion) - 1] in diccionario.keys():
+                solucion = diccionario[ecuacion[1:i]] + diccionario[ecuacion[i + 1:len(ecuacion) - 1]]
+        else:
+            if ecuacion[0:i] in diccionario.keys() and ecuacion[i + 1:len(ecuacion)] in diccionario.keys():
+                solucion = diccionario[ecuacion[0:i]] + diccionario[ecuacion[i + 1:len(ecuacion)]]
+    if "-" in ecuacion and "+" not in ecuacion and "*" not in ecuacion and "^" not in ecuacion and "/" not in ecuacion:
+        i = ecuacion.index("-")
+        if "(" in ecuacion:
+            if ecuacion[1:i] in diccionario.keys() and ecuacion[i + 1:len(ecuacion) - 1] in diccionario.keys():
+                solucion = diccionario[ecuacion[1:i]] - diccionario[ecuacion[i + 1:len(ecuacion) - 1]]
+        else:
+            if ecuacion[0:i] in diccionario.keys() and ecuacion[i + 1:len(ecuacion)] in diccionario.keys():
+                solucion = diccionario[ecuacion[0:i]] - diccionario[ecuacion[i + 1:len(ecuacion)]]
+    if "^" in ecuacion and "+" not in ecuacion and "*" not in ecuacion and "/" not in ecuacion \
+            and num <= 1:
+        i = ecuacion.index("^")
+        if "(" in ecuacion:
+            if "-"in ecuacion[1:i]:
+                numero = ecuacion[i + 1:len(ecuacion) - 1]
+                if numero == "-1":
+                    solucionUno = np.linalg.inv(diccionario[ecuacion[2:i]])
+                    solucionUno = np.array(solucionUno)
+                    solucion = solucionUno * (-1)
+                if numero == "D" or numero == "d":
+                    solucionUno = np.linalg.det(diccionario[ecuacion[2:i]])
+                    solucionUno = np.array(solucionUno)
+                    solucion = solucionUno * (-1)
+                if numero == "T" or numero == "t":
+                    solucionUno = diccionario[ecuacion[2:i]].T
+                    solucionUno = np.array(solucionUno)
+                    solucion = solucionUno * (-1)
+                else:
+                    if ecuacion[2:i] in diccionario.keys() and numero != "-1" and numero != "D" \
+                            and numero != "d" and numero != "T" and numero != "t":
+                        solucionUno = matrizElevada(int(numero), diccionario[ecuacion[2:i]])
+                        solucionUno = np.array(solucionUno)
+                        solucion = solucionUno * (-1)
+            else:
+                numero = ecuacion[i + 1:len(ecuacion) - 1]
+                if numero == "-1":
+                    solucion = np.linalg.inv(diccionario[ecuacion[1:i]])
+                if numero == "D" or numero == "d":
+                    solucion = np.linalg.det(diccionario[ecuacion[1:i]])
+                if numero == "T" or numero == "t":
+                    solucion = diccionario[ecuacion[1:i]].T
+                else:
+                    if ecuacion[1:i] in diccionario.keys() and numero != "-1" and numero != "D" \
+                            and numero != "d" and numero != "T" and numero != "t":
+                        solucion = matrizElevada(int(numero), diccionario[ecuacion[1:i]])
+        else:
+            if "-" in ecuacion[0:i]:
+                numero = ecuacion[i + 1:len(ecuacion)]
+                if numero == "-1":
+                    solucionUno = np.linalg.inv(diccionario[ecuacion[1:i]])
+                    solucionUno = np.array(solucionUno)
+                    solucion = solucionUno * (-1)
+                if numero == "D" or numero == "d":
+                    solucionUno = np.linalg.det(diccionario[ecuacion[1:i]])
+                    solucionUno = np.array(solucionUno)
+                    solucion = solucionUno * (-1)
+                if numero == "T" or numero == "t":
+                    solucionUno = diccionario[ecuacion[1:i]].T
+                    solucionUno = np.array(solucionUno)
+                    solucion = solucionUno * (-1)
+                else:
+                    if ecuacion[0:i] in diccionario.keys() and numero != "-1" and numero != "D" \
+                            and numero != "d" and numero != "T" and numero != "t":
+                        solucionUno = matrizElevada(int(numero), diccionario[ecuacion[1:i]])
+                        solucionUno = np.array(solucionUno)
+                        solucion = solucionUno * (-1)
+            else:
+                numero = ecuacion[i + 1:len(ecuacion)]
+                if numero == "-1":
+                    solucion = np.linalg.inv(diccionario[ecuacion[0:i]])
+                if numero == "D" or numero == "d":
+                    solucion = np.linalg.det(diccionario[ecuacion[0:i]])
+                if numero == "T" or numero == "t":
+                    solucion = diccionario[ecuacion[0:i]].T
+                else:
+                    if ecuacion[0:i] in diccionario.keys() and numero != "-1" and numero != "D" \
+                            and numero != "d" and numero != "T" and numero != "t":
+                        solucion = matrizElevada(int(numero), diccionario[ecuacion[0:i]])
+    if "*" in ecuacion and "+" not in ecuacion and "-" not in ecuacion and "^" not in ecuacion and "/" not in ecuacion:
+        i = ecuacion.index("*")
+        if "(" in ecuacion:
+            if ecuacion[i + 1].isdigit():
+                posU = i + 1
+                posJ = len(ecuacion) - 1
+                numero = float(ecuacion[posU:posJ])
+                if ecuacion[1:i] in diccionario.keys() and numero != -1:
+                    solucion = np.dot(numero, diccionario[ecuacion[1:i]])
+            if ecuacion[1:i] in diccionario.keys() and ecuacion[i + 1:len(ecuacion) - 1] in diccionario.keys():
+                solucion = np.dot(diccionario[ecuacion[1:i]], diccionario[ecuacion[i + 1:len(ecuacion) - 1]])
+        else:
+            if ecuacion[i + 1].isdigit():
+                posU = i + 1
+                posJ = len(ecuacion)
+                numero = float(ecuacion[posU:posJ])
+                if ecuacion[0:i] in diccionario.keys() and numero != -1:
+                    solucion = np.dot(numero, diccionario[ecuacion[0:i]])
+            if ecuacion[0:i] in diccionario.keys() and ecuacion[i + 1:len(ecuacion)] in diccionario.keys():
+                solucion = np.dot(diccionario[ecuacion[0:i]], diccionario[ecuacion[i + 1:len(ecuacion)]])
+    if "/" in ecuacion and "+" not in ecuacion and "-" not in ecuacion and "^" not in ecuacion and "*" not in ecuacion:
+        i = ecuacion.index("/")
+        if "(" in ecuacion:
+            if ecuacion[i+1].isdigit():
+                posU = i + 1
+                posJ = len(ecuacion)-1
+                numero = float(ecuacion[posU:posJ])
+                if ecuacion[1:i] in diccionario.keys() and numero != -1:
+                    solucion = diccionario[ecuacion[1:i]] / numero
+            if ecuacion[1:i] in diccionario.keys() and ecuacion[i + 1:len(ecuacion) - 1] in diccionario.keys():
+                solucion = diccionario[ecuacion[1:i]] / diccionario[ecuacion[i + 1:len(ecuacion) - 1]]
+        else:
+            if ecuacion[i + 1].isdigit():
+                posU = i + 1
+                posJ = len(ecuacion)
+                numero = float(ecuacion[posU:posJ])
+                if ecuacion[0:i] in diccionario.keys() and numero != -1:
+                    solucion = diccionario[ecuacion[1:i]] / numero
+            if ecuacion[0:i] in diccionario.keys() and ecuacion[i + 1:len(ecuacion) ] in diccionario.keys():
+                solucion = diccionario[ecuacion[0:i]] / diccionario[ecuacion[i + 1:len(ecuacion) ]]
+    return solucion
+
+
+def ecuacionesMatrices(ecuacion, matriz):
+    i = 0
+    f = 0
+    clave = ""
+    auxiliar = ecuacion
+    auxDos = ""
+    diccionario = matriz.copy()
+    while len(auxiliar) != 0:
+        if "(" in auxiliar:
+
+            if i + 1 < len(auxiliar) and auxiliar[i] != ")":
+                if auxiliar[i] == "(" and auxiliar[i + 1] != "(":
+                    posicionInicial = i
+                if auxiliar[i + 1] == "(":
+                    posicionInicial = i + 1
+            if auxiliar[i] == ")":
+                posicionFinal = i
+                if posicionInicial != -1 and posicionFinal != -1:
+                    auxDos = auxiliar[posicionInicial: posicionFinal + 1]
+                    clave = "r" + str(f)
+                    diccionario[str(clave)] = np.array(operar(auxDos, diccionario))
+                    if len(auxDos) == len(auxiliar):
+                        auxiliar = auxiliar.replace(auxDos, "")
+                    else:
+                        auxiliar = auxiliar.replace(auxDos, str(clave))
+                    f = f + 1
+                    i = 0
+                    posicionInicial = 0
+                    posicionFinal = 0
+                    auxDos = ""
+        i = i + 1
+
+        if "(" not in auxiliar:
+            if "^" in auxiliar:
+                posicionInicial = 0
+                posicionFinal = len(auxiliar)
+                auxDos = auxiliar[posicionInicial:posicionFinal]
+                clave = "r" + str(f)
+                diccionario[str(clave)] = np.array(operar(auxDos, diccionario))
+                if len(auxDos) == len(auxiliar):
+                    auxiliar = auxiliar.replace(auxDos, "")
+                else:
+                    auxiliar = auxiliar.replace(auxDos, str(clave))
+                f = f + 1
+            if "*" in auxiliar:
+                posicionInicial = 0
+                posicionFinal = len(auxiliar)
+                auxDos = auxiliar[posicionInicial:posicionFinal]
+                clave = "r" + str(f)
+                diccionario[str(clave)] = np.array(operar(auxDos, diccionario))
+                if len(auxDos) == len(auxiliar):
+                    auxiliar = auxiliar.replace(auxDos, "")
+                else:
+                    auxiliar = auxiliar.replace(auxDos, str(clave))
+                f = f + 1
+            if "/" in auxiliar:
+                posicionInicial = 0
+                posicionFinal = len(auxiliar)
+                auxDos = auxiliar[posicionInicial:posicionFinal]
+                clave = "r" + str(f)
+                diccionario[str(clave)] = np.array(operar(auxDos, diccionario))
+                if len(auxDos) == len(auxiliar):
+                    auxiliar = auxiliar.replace(auxDos, "")
+                else:
+                    auxiliar = auxiliar.replace(auxDos, str(clave))
+                f = f + 1
+            if "-" in auxiliar:
+                posicionInicial = 0
+                posicionFinal = len(auxiliar)
+                auxDos = auxiliar[posicionInicial:posicionFinal]
+                clave = "r" + str(f)
+                diccionario[str(clave)] = np.array(operar(auxDos, diccionario))
+                if len(auxDos) == len(auxiliar):
+                    auxiliar = auxiliar.replace(auxDos, "")
+                else:
+                    auxiliar = auxiliar.replace(auxDos, str(clave))
+                f = f + 1
+            if "+" in auxiliar:
+                posicionInicial = 0
+                posicionFinal = len(auxiliar)
+                auxDos = auxiliar[posicionInicial:posicionFinal]
+                clave = "r" + str(f)
+                diccionario[str(clave)] = np.array(operar(auxDos, diccionario))
+                if len(auxDos) == len(auxiliar):
+                    auxiliar = auxiliar.replace(auxDos, "")
+                else:
+                    auxiliar = auxiliar.replace(auxDos, str(clave))
+                f = f + 1
+    return diccionario[clave]
 
 def determinar_matriz(valor):
     global datos
@@ -321,20 +772,20 @@ def buscar_numero(dato):
     return estado
 
 
-def multipliacion_matrices(valor):
-    res = 0
-    aux = []
-    global datos
-    for y in valor:
-        if y != '*':
-            aux.append(determinar_matriz(y))
-    if get_col(valor[0]) == get_fil(valor[2]):
-        for x in range(len(aux) - 1):
-            res = np.matmul(aux[x], aux[x + 1])
-    else:
-        res = 'recuerda que el numero de columbas de la matriz '+valor[0]+\
-              ' deben ser igual al numero de filas de la matriz '+valor[2]
-    return res
+# def multipliacion_matrices(valor):
+#     res = 0
+#     aux = []
+#     global datos
+#     for y in valor:
+#         if y != '*':
+#             aux.append(determinar_matriz(y))
+#     if get_col(valor[0]) == get_fil(valor[2]):
+#         for x in range(len(aux) - 1):
+#             res = np.matmul(aux[x], aux[x + 1])
+#     else:
+#         res = 'recuerda que el numero de columbas de la matriz '+valor[0]+\
+#               ' deben ser igual al numero de filas de la matriz '+valor[2]
+#     return res
 
 
 def es_cuadrada(valor):
@@ -408,20 +859,20 @@ def get_id(valor):
             respuesta = valor[x]
     return respuesta
 
-def matriz_inversa(valor):
-    id_matriz =''
-    matriz_aux = 0
-    inversa = ''
-    for x in range(len(valor)):
-        if valor[x-1] == '(':
-            id_matriz = valor[x]
-    if es_cuadrada(id_matriz) == True:
-        matriz_aux = determinar_matriz(id_matriz)
-        inversa = np.linalg.inv(matriz_aux)
-    else:
-        inversa = 'la matriz debe ser cuadrada'
-
-    return inversa
+# def matriz_inversa(valor):
+#     id_matriz =''
+#     matriz_aux = 0
+#     inversa = ''
+#     for x in range(len(valor)):
+#         if valor[x-1] == '(':
+#             id_matriz = valor[x]
+#     if es_cuadrada(id_matriz) == True:
+#         matriz_aux = determinar_matriz(id_matriz)
+#         inversa = np.linalg.inv(matriz_aux)
+#     else:
+#         inversa = 'la matriz debe ser cuadrada'
+#
+#     return inversa
 
 def get_pos_array(valor):
     global datos
@@ -442,17 +893,17 @@ def existe_matriz(valor):
             return True
     return False
 
-def matriz_transpuesta(valor):
-    id_mat = get_id(valor)
-    mat = 0
-    trans = 0
-    if existe_matriz(id_mat):
-        mat = determinar_matriz(id_mat)
-        trans = trasponer(mat)
-    else:
-        trans = 'no existe una matriz con ese id'
-
-    return trans
+# def matriz_transpuesta(valor):
+#     id_mat = get_id(valor)
+#     mat = 0
+#     trans = 0
+#     if existe_matriz(id_mat):
+#         mat = determinar_matriz(id_mat)
+#         trans = trasponer(mat)
+#     else:
+#         trans = 'no existe una matriz con ese id'
+#
+#     return trans
 
 def trasponer(m):
     return np.transpose(m)
