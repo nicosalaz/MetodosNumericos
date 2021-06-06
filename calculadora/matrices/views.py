@@ -89,9 +89,11 @@ def guardar_valores_area(m, name):
     global datos
     global fil
     global col
-    mat = creadorDeMatrices_area(m)
+    mat = ordenar_2(m)
+    a = to_matriz(mat)
+    t = to_float(a)
     col, fil = saberDeCuantoPorCuantoEs(mat)
-    mat_final = rellenarLosEspacios(mat)
+    mat_final = rellenarLosEspacios(t)
     datos[name] =np.array(mat_final)
 
 
